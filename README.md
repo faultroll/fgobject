@@ -1,6 +1,9 @@
 
 This is a learning-oop-in-c project, reinventing oop system in c based on gtype(you don't need gobject, so we make it fallen, fallen from the sky we cannot touch).
 
+- learn oop & gobject (paste some useful links)
+- minimize gtype for embedded linux (daydreaming: run on mcu like stm32/8051) 
+
 ---
 
 TODO oop
@@ -46,6 +49,6 @@ struct _TypeNode
 - _prot -- for interface(one class many interface)
 - n_prerequisites & prerequisites -- for interface inherit(because interface struct don't have children or super like class)
 
-The GType have three essential part of oop(TODO polymorph, maybe contains in interface), so we could just uses GType to reinvent the oop system.
-(generic & signals & paramspecs in GObject are unneeded for basic oop)
+The GType have three essential part of oop(TODO polymorph, maybe contains in interface), so we can just use GType to reinvent the oop system.
+(generic/GValue & signals/closure & ffi/marshal/paramspecs in GObject are unneeded for basic oop)
 
