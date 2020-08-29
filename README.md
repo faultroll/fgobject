@@ -5,6 +5,7 @@ This is a learning-oop-in-c project, reinventing oop system in c based on gtype(
 
 - learn oop & gobject (paste some useful links)
 - minimize gtype for embedded linux (daydreaming: run on mcu like stm32/8051) 
+- learning cmake & gtestutil & github-ci
 
 ---
 
@@ -58,6 +59,8 @@ The GType have three essential part of oop(TODO polymorph, maybe contains in int
 
 - sync
 
+  synchronize
+
   - gthread
 
     once_init/lock/...
@@ -68,7 +71,9 @@ The GType have three essential part of oop(TODO polymorph, maybe contains in int
 
 - stor
 
-  - gquark&ghash
+  storage&datastructure
+
+  - gquark&ghash&gslist
 
   - gslice&gmem&gstrfunc
 
@@ -76,9 +81,11 @@ The GType have three essential part of oop(TODO polymorph, maybe contains in int
 
 - util
 
+  utility
+
   - gmacros&gversionmacros
 
-    deprecated/...
+    .../deprecated/...
   
   - gmessages
 
