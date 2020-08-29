@@ -1,4 +1,6 @@
 
+## perpose
+
 This is a learning-oop-in-c project, reinventing oop system in c based on gtype(you don't need gobject, so we make it fallen, fallen from the sky we cannot touch).
 
 - learn oop & gobject (paste some useful links)
@@ -6,7 +8,7 @@ This is a learning-oop-in-c project, reinventing oop system in c based on gtype(
 
 ---
 
-TODO oop
+## TODO oop
 - encaps
 - inherit
 - polymorph
@@ -52,3 +54,36 @@ struct _TypeNode
 The GType have three essential part of oop(TODO polymorph, maybe contains in interface), so we can just use GType to reinvent the oop system.
 (generic/GValue & signals/closure & ffi/marshal/paramspecs in GObject are unneeded for basic oop)
 
+## implement
+
+- sync
+
+  - gthread
+
+    once_init/lock/...
+  
+  - gatomic
+
+  - grefcount
+
+- stor
+
+  - gquark&ghash
+
+  - gslice&gmem&gstrfunc
+
+  - gatomicarray
+
+- util
+
+  - gmacros&gversionmacros
+
+    deprecated/...
+  
+  - gmessages
+
+    return_if_xxx
+  
+  - config&glibconfig
+
+    platformdiff
