@@ -4,7 +4,9 @@ project(fgobject)
 
 set(CMAKE_BUILD_TYPE MinSizeRel)
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+set(${PROJECT_NAME}_PRJ_DIR ${PROJECT_SOURCE_DIR})
+
+set(CMAKE_MODULE_PATH ${${PROJECT_NAME}_PRJ_DIR}/cmake)
 include(util)
 
 set(custom_common_compiler_flags
@@ -13,6 +15,9 @@ set(custom_common_compiler_flags
   -Wextra
   # -Winvalid-pch
   -D_POSIX_C_SOURCE=200809L
+  -ffunction-sections
+  -fdata-sections
+  -fPIC
   )
 set(custom_c_compiler_flags
   ${custom_common_compiler_flags}
@@ -29,7 +34,7 @@ set_custom_flags("cxx" "compiler" custom_cxx_compiler_flags)
 set(custom_common_linker_flags
   -Wl,--gc-sections
   -Wl,--as-needed
-  -rdynamic
+  -Wl,--export-dynamic
   )
 set_custom_flags("c" "linker" custom_c_compiler_flags)
 set_custom_flags("cxx" "linker" custom_cxx_compiler_flags)

@@ -145,23 +145,37 @@ g_type_plugin_unuse (GTypePlugin *plugin)
  * There should be no need to use this function outside of the GObject 
  * type system itself.
  */
+#if 0 /* GTypeValueTable */
 void
 g_type_plugin_complete_type_info (GTypePlugin     *plugin,
 				  GType            g_type,
 				  GTypeInfo       *info,
 				  GTypeValueTable *value_table)
+#else
+void
+g_type_plugin_complete_type_info (GTypePlugin     *plugin,
+				  GType            g_type,
+				  GTypeInfo       *info)
+#endif
 {
   GTypePluginClass *iface;
   
   g_return_if_fail (G_IS_TYPE_PLUGIN (plugin));
   g_return_if_fail (info != NULL);
+#if 0 /* GTypeValueTable */
   g_return_if_fail (value_table != NULL);
-  
+#endif
   iface = G_TYPE_PLUGIN_GET_CLASS (plugin);
+#if 0 /* GTypeValueTable */
   iface->complete_type_info (plugin,
 			     g_type,
 			     info,
 			     value_table);
+#else
+  iface->complete_type_info (plugin,
+			     g_type,
+			     info);
+#endif
 }
 
 /**

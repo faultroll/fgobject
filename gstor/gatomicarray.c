@@ -21,6 +21,9 @@
 
 #include "gatomicarray.h"
 
+#include "gthread.h"
+#include "gmacros.h"
+
 /* A GAtomicArray is a growable, mutable array of data
  * generally of the form of a header of a specific size and
  * then an array of items of a fixed size.

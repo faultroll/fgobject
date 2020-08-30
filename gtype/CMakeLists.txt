@@ -1,6 +1,8 @@
 
 project(gtype)
 
+set(${PROJECT_NAME}_PRJ_DIR ${PROJECT_SOURCE_DIR})
+
 set(${PROJECT_NAME}_SRC
 	gtype.c
 	gtypeplugin.c
@@ -8,7 +10,7 @@ set(${PROJECT_NAME}_SRC
 
 set(${PROJECT_NAME}_SRC
 	${${PROJECT_NAME}_SRC}
-	gtypemodule.c
+	# gtypemodule.c
 )
 
 add_library(${PROJECT_NAME} OBJECT

@@ -1,6 +1,8 @@
 
 project(gutil)
 
+set(${PROJECT_NAME}_PRJ_DIR ${PROJECT_SOURCE_DIR})
+
 set(${PROJECT_NAME}_SRC
 	gmessages.c
 )

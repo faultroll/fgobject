@@ -33,14 +33,14 @@
 
 #include <string.h>
 
-#include "gslice.h"
-#include "ghash.h"
 #include "gquark.h"
+// #include "gslice.h"
+#include "ghash.h"
 #include "gstrfuncs.h"
 #include "gthread.h"
-#include "gtestutils.h"
-#include "glib_trace.h"
-#include "glib-init.h"
+// #include "gtestutils.h"
+// #include "glib_trace.h"
+// #include "glib-init.h"
 
 #define QUARK_BLOCK_SIZE         2048
 #define QUARK_STRING_BLOCK_SIZE (4096 - sizeof (gsize))

@@ -38,18 +38,18 @@
 
 #include "gslice.h"
 
-#include "gmain.h"
+// #include "gmain.h"
 #include "gmem.h"               /* gslice.h */
 #include "gstrfuncs.h"
-#include "gutils.h"
-#include "gtrashstack.h"
-#include "gtestutils.h"
+// #include "gutils.h"
+// #include "gtrashstack.h"
+// #include "gtestutils.h"
 #include "gthread.h"
-#include "gthreadprivate.h"
-#include "glib_trace.h"
-#include "gprintf.h"
+// #include "gthreadprivate.h"
+// #include "glib_trace.h"
+// #include "gprintf.h"
 
-#include "gvalgrind.h"
+// #include "gvalgrind.h"
 
 /**
  * SECTION:memory_slices

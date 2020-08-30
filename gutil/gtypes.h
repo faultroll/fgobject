@@ -25,13 +25,13 @@
 #ifndef __G_TYPES_H__
 #define __G_TYPES_H__
 
-#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
-#error "Only <glib.h> can be included directly."
-#endif
+// #if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+// #error "Only <glib.h> can be included directly."
+// #endif
 
-#include <glibconfig.h>
-#include <glib/gmacros.h>
-#include <glib/gversionmacros.h>
+#include "glibconfig.h"
+#include "gmacros.h"
+#include "gversionmacros.h"
 #include <time.h>
 
 G_BEGIN_DECLS

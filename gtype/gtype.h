@@ -17,11 +17,12 @@
 #ifndef __G_TYPE_H__
 #define __G_TYPE_H__
 
-#if !defined (__GLIB_GOBJECT_H_INSIDE__) && !defined (GOBJECT_COMPILATION)
-#error "Only <glib-object.h> can be included directly."
-#endif
+// #if !defined (__GLIB_GOBJECT_H_INSIDE__) && !defined (GOBJECT_COMPILATION)
+// #error "Only <glib-object.h> can be included directly."
+// #endif
 
-#include        <glib.h>
+#include "gtypes.h"
+#include "gquark.h"
 
 G_BEGIN_DECLS
 
@@ -66,6 +67,7 @@ G_BEGIN_DECLS
  * The fundamental type from which all interfaces are derived.
  */
 #define G_TYPE_INTERFACE		G_TYPE_MAKE_FUNDAMENTAL (2)
+#if 0 /* GTypeValueTable */
 /**
  * G_TYPE_CHAR:
  * 
@@ -194,7 +196,7 @@ G_BEGIN_DECLS
  * Since: 2.26
  */
 #define	G_TYPE_VARIANT                  G_TYPE_MAKE_FUNDAMENTAL (21)
-
+#endif
 
 /* Reserved fundamental type numbers to create new fundamental
  * type IDs with G_TYPE_MAKE_FUNDAMENTAL().
@@ -361,6 +363,7 @@ G_BEGIN_DECLS
  * Returns: %TRUE on success
  */
 #define G_TYPE_IS_VALUE_TYPE(type)              (g_type_check_is_value_type (type))
+#if 0 /* GTypeValueTable */
 /**
  * G_TYPE_HAS_VALUE_TABLE:
  * @type: A #GType value
@@ -370,7 +373,7 @@ G_BEGIN_DECLS
  * Returns: %TRUE on success
  */
 #define G_TYPE_HAS_VALUE_TABLE(type)            (g_type_value_table_peek (type) != NULL)
-
+#endif
 
 /* Typedefs
  */
@@ -394,7 +397,9 @@ typedef struct _GTypeInstance           GTypeInstance;
 typedef struct _GTypeInfo               GTypeInfo;
 typedef struct _GTypeFundamentalInfo    GTypeFundamentalInfo;
 typedef struct _GInterfaceInfo          GInterfaceInfo;
+#if 0 /* GTypeValueTable */
 typedef struct _GTypeValueTable         GTypeValueTable;
+#endif
 typedef struct _GTypeQuery		GTypeQuery;
 
 
@@ -1058,9 +1063,10 @@ struct _GTypeInfo
   guint16                instance_size;
   guint16                n_preallocs;
   GInstanceInitFunc      instance_init;
-  
+#if 0 /* GTypeValueTable */
   /* value handling */
   const GTypeValueTable	*value_table;
+#endif
 };
 /**
  * GTypeFundamentalInfo:
@@ -1088,6 +1094,7 @@ struct _GInterfaceInfo
   GInterfaceFinalizeFunc interface_finalize;
   gpointer               interface_data;
 };
+#if 0 /* GTypeValueTable */
 /**
  * GTypeValueTable:
  * @value_init: Default initialize @values contents by poking values
@@ -1261,6 +1268,7 @@ struct _GTypeValueTable
 				  GTypeCValue  *collect_values,
 				  guint		collect_flags);
 };
+#endif
 GLIB_AVAILABLE_IN_ALL
 GType g_type_register_static		(GType			     parent_type,
 					 const gchar		    *type_name,
@@ -2249,10 +2257,10 @@ void             g_type_add_interface_check     (gpointer	         check_data,
 GLIB_AVAILABLE_IN_ALL
 void             g_type_remove_interface_check  (gpointer	         check_data,
 						 GTypeInterfaceCheckFunc check_func);
-
+#if 0 /* GTypeValueTable */
 GLIB_AVAILABLE_IN_ALL
 GTypeValueTable* g_type_value_table_peek        (GType		     type);
-
+#endif
 
 /*< private >*/
 GLIB_AVAILABLE_IN_ALL

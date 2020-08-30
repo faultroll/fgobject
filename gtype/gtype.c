@@ -21,18 +21,23 @@
 
 #include "config.h"
 
-#include "../glib/gvalgrind.h"
+// #include "../glib/gvalgrind.h"
 #include <string.h>
 
 #include "gtype.h"
-#include "gtype-private.h"
+// #include "gtype-private.h"
 #include "gtypeplugin.h"
-#include "gvaluecollector.h"
-#include "gatomicarray.h"
-#include "gobject_trace.h"
+// #include "gvaluecollector.h"
+// #include "gobject_trace.h"
 
-#include "glib-private.h"
+// #include "glib-private.h"
 #include "gconstructor.h"
+#include "gthread.h"
+
+#include "gatomicarray.h"
+#include "gquark.h"
+#include "ghash.h"
+#include "gslist.h"
 
 #ifdef G_OS_WIN32
 #include <windows.h>
@@ -164,7 +169,9 @@
 /* --- typedefs --- */
 typedef struct _TypeNode        TypeNode;
 typedef struct _CommonData      CommonData;
+#if 0 /* GTypeValueTable */
 typedef struct _BoxedData       BoxedData;
+#endif
 typedef struct _IFaceData       IFaceData;
 typedef struct _ClassData       ClassData;
 typedef struct _InstanceData    InstanceData;
@@ -172,15 +179,21 @@ typedef union  _TypeData        TypeData;
 typedef struct _IFaceEntries    IFaceEntries;
 typedef struct _IFaceEntry      IFaceEntry;
 typedef struct _IFaceHolder	IFaceHolder;
-
+typedef struct _QData QData;
+typedef struct _GData GData;
 
 /* --- prototypes --- */
 static inline GTypeFundamentalInfo*	type_node_fundamental_info_I	(TypeNode		*node);
 static	      void			type_add_flags_W		(TypeNode		*node,
 									 GTypeFlags		 flags);
+#if 0 /* GTypeValueTable */
 static	      void			type_data_make_W		(TypeNode		*node,
 									 const GTypeInfo	*info,
 									 const GTypeValueTable	*value_table);
+#else
+static	      void			type_data_make_W		(TypeNode		*node,
+									 const GTypeInfo	*info);
+#endif
 static inline void			type_data_ref_Wm		(TypeNode		*node);
 static inline void			type_data_unref_U               (TypeNode		*node,
 									 gboolean		 uncached);
@@ -233,7 +246,7 @@ struct _TypeNode
   guint        is_instantiatable : 1;
   guint        mutatable_check_cache : 1;	/* combines some common path checks */
   GType       *children; /* writable with lock */
-  TypeData * volatile data;
+  TypeData    *volatile data;
   GQuark       qname;
   GData       *global_gdata;
   union {
@@ -254,7 +267,9 @@ struct _TypeNode
 #define NODE_FUNDAMENTAL_TYPE(node)		(node->supers[node->n_supers])
 #define NODE_NAME(node)				(g_quark_to_string (node->qname))
 #define NODE_REFCOUNT(node)                     ((guint) g_atomic_int_get ((int *) &(node)->ref_count))
+#if 0 /* GTypeValueTable */
 #define	NODE_IS_BOXED(node)			(NODE_FUNDAMENTAL_TYPE (node) == G_TYPE_BOXED)
+#endif
 #define	NODE_IS_IFACE(node)			(NODE_FUNDAMENTAL_TYPE (node) == G_TYPE_INTERFACE)
 #define	CLASSED_NODE_IFACES_ENTRIES(node)	(&(node)->_prot.iface_entries)
 #define	CLASSED_NODE_IFACES_ENTRIES_LOCKED(node)(G_ATOMIC_ARRAY_GET_LOCKED(CLASSED_NODE_IFACES_ENTRIES((node)), IFaceEntries))
@@ -295,16 +310,18 @@ struct _IFaceEntries {
 
 struct _CommonData
 {
+#if 0 /* GTypeValueTable */
   GTypeValueTable  *value_table;
+#endif
 };
-
+#if 0 /* GTypeValueTable */
 struct _BoxedData
 {
   CommonData         data;
   GBoxedCopyFunc     copy_func;
   GBoxedFreeFunc     free_func;
 };
-
+#endif
 struct _IFaceData
 {
   CommonData         common;
@@ -351,11 +368,24 @@ struct _InstanceData
 
 union _TypeData
 {
+#if 0 /* GTypeValueTable */
   CommonData         common;
   BoxedData          boxed;
+#endif
   IFaceData          iface;
   ClassData          class;
   InstanceData       instance;
+};
+
+struct _GData
+{
+  guint  n_qdatas;
+  QData *qdatas;
+};
+struct _QData
+{
+  GQuark   quark;
+  gpointer data;
 };
 
 typedef struct {
@@ -803,7 +833,7 @@ check_derivation_I (GType        parent_type,
   
   return TRUE;
 }
-
+#if 0 /* GTypeValueTable */
 static gboolean
 check_collect_format_I (const gchar *collect_format)
 {
@@ -879,7 +909,7 @@ check_value_table_I (const gchar           *type_name,
     }
   return TRUE;
 }
-
+#endif
 static gboolean
 check_type_info_I (TypeNode        *pnode,
 		   GType            ftype,
@@ -1077,17 +1107,25 @@ check_interface_info_I (TypeNode             *iface,
 }
 
 /* --- type info (type node data) --- */
+#if 0 /* GTypeValueTable */
 static void
 type_data_make_W (TypeNode              *node,
 		  const GTypeInfo       *info,
 		  const GTypeValueTable *value_table)
+#else
+static void
+type_data_make_W (TypeNode              *node,
+		  const GTypeInfo       *info)
+#endif
 {
   TypeData *data;
+#if 0 /* GTypeValueTable */
   GTypeValueTable *vtable = NULL;
   guint vtable_size = 0;
-  
+#endif
+
   g_assert (node->data == NULL && info != NULL);
-  
+#if 0 /* GTypeValueTable */
   if (!value_table)
     {
       TypeNode *pnode = lookup_type_node_I (NODE_PARENT_TYPE (node));
@@ -1111,14 +1149,17 @@ type_data_make_W (TypeNode              *node,
 	vtable_size += strlen (value_table->lcopy_format);
       vtable_size += 2;
     }
-   
+#endif
   if (node->is_instantiatable) /* careful, is_instantiatable is also is_classed */
     {
       TypeNode *pnode = lookup_type_node_I (NODE_PARENT_TYPE (node));
-
+#if 0 /* GTypeValueTable */
       data = g_malloc0 (sizeof (InstanceData) + vtable_size);
       if (vtable_size)
 	vtable = G_STRUCT_MEMBER_P (data, sizeof (InstanceData));
+#else
+      data = g_malloc0 (sizeof (InstanceData));
+#endif
       data->instance.class_size = info->class_size;
       data->instance.class_init_base = info->base_init;
       data->instance.class_finalize_base = info->base_finalize;
@@ -1141,10 +1182,13 @@ type_data_make_W (TypeNode              *node,
   else if (node->is_classed) /* only classed */
     {
       TypeNode *pnode = lookup_type_node_I (NODE_PARENT_TYPE (node));
-
+#if 0 /* GTypeValueTable */
       data = g_malloc0 (sizeof (ClassData) + vtable_size);
       if (vtable_size)
 	vtable = G_STRUCT_MEMBER_P (data, sizeof (ClassData));
+#else
+      data = g_malloc0 (sizeof (ClassData));
+#endif
       data->class.class_size = info->class_size;
       data->class.class_init_base = info->base_init;
       data->class.class_finalize_base = info->base_finalize;
@@ -1159,9 +1203,13 @@ type_data_make_W (TypeNode              *node,
     }
   else if (NODE_IS_IFACE (node))
     {
+#if 0 /* GTypeValueTable */
       data = g_malloc0 (sizeof (IFaceData) + vtable_size);
       if (vtable_size)
 	vtable = G_STRUCT_MEMBER_P (data, sizeof (IFaceData));
+#else
+      data = g_malloc0 (sizeof (IFaceData));
+#endif
       data->iface.vtable_size = info->class_size;
       data->iface.vtable_init_base = info->base_init;
       data->iface.vtable_finalize_base = info->base_finalize;
@@ -1170,6 +1218,7 @@ type_data_make_W (TypeNode              *node,
       data->iface.dflt_data = info->class_data;
       data->iface.dflt_vtable = NULL;
     }
+#if 0 /* GTypeValueTable */
   else if (NODE_IS_BOXED (node))
     {
       data = g_malloc0 (sizeof (BoxedData) + vtable_size);
@@ -1182,9 +1231,13 @@ type_data_make_W (TypeNode              *node,
       if (vtable_size)
 	vtable = G_STRUCT_MEMBER_P (data, sizeof (CommonData));
     }
-  
+#else
+  else
+    {
+    }
+#endif
   node->data = data;
-  
+#if 0 /* GTypeValueTable */
   if (vtable_size)
     {
       gchar *p;
@@ -1214,7 +1267,9 @@ type_data_make_W (TypeNode              *node,
 				   GPOINTER_TO_UINT (type_get_qdata_L (node, static_quark_type_flags))));
   
   g_assert (node->data->common.value_table != NULL); /* paranoid */
-
+#else
+  node->mutatable_check_cache = 0; /* node->data->common.value_table->value_init == NULL */
+#endif
   g_atomic_int_set ((int *) &node->ref_count, 1);
 }
 
@@ -1225,8 +1280,9 @@ type_data_ref_Wm (TypeNode *node)
     {
       TypeNode *pnode = lookup_type_node_I (NODE_PARENT_TYPE (node));
       GTypeInfo tmp_info;
+#if 0 /* GTypeValueTable */
       GTypeValueTable tmp_value_table;
-      
+#endif
       g_assert (node->plugin != NULL);
       
       if (pnode)
@@ -1237,19 +1293,28 @@ type_data_ref_Wm (TypeNode *node)
 	}
       
       memset (&tmp_info, 0, sizeof (tmp_info));
+#if 0 /* GTypeValueTable */
       memset (&tmp_value_table, 0, sizeof (tmp_value_table));
-      
+#endif
       G_WRITE_UNLOCK (&type_rw_lock);
       g_type_plugin_use (node->plugin);
+#if 0 /* GTypeValueTable */
       g_type_plugin_complete_type_info (node->plugin, NODE_TYPE (node), &tmp_info, &tmp_value_table);
+#else
+      g_type_plugin_complete_type_info (node->plugin, NODE_TYPE (node), &tmp_info);
+#endif
       G_WRITE_LOCK (&type_rw_lock);
       if (node->data)
 	INVALID_RECURSION ("g_type_plugin_*", node->plugin, NODE_NAME (node));
       
       check_type_info_I (pnode, NODE_FUNDAMENTAL_TYPE (node), NODE_NAME (node), &tmp_info);
+      #if 0 /* GTypeValueTable */
       type_data_make_W (node, &tmp_info,
 			check_value_table_I (NODE_NAME (node),
 					     &tmp_value_table) ? &tmp_value_table : NULL);
+      #else
+      type_data_make_W (node, &tmp_info);
+      #endif
     }
   else
     {
@@ -2662,8 +2727,12 @@ g_type_register_fundamental (GType                       type_id,
   type_add_flags_W (node, flags);
   
   if (check_type_info_I (NULL, NODE_FUNDAMENTAL_TYPE (node), type_name, info))
+  #if 0 /* GTypeValueTable */
     type_data_make_W (node, info,
 		      check_value_table_I (type_name, info->value_table) ? info->value_table : NULL);
+  #else
+    type_data_make_W (node, info);
+  #endif
   G_WRITE_UNLOCK (&type_rw_lock);
   
   return NODE_TYPE (node);
@@ -2714,7 +2783,9 @@ g_type_register_static_simple (GType             parent_type,
   info.instance_size = instance_size;
   info.n_preallocs = 0;
   info.instance_init = instance_init;
+#if 0 /* GTypeValueTable */
   info.value_table = NULL;
+#endif
 
   return g_type_register_static (parent_type, type_name, &info, flags);
 }
@@ -2766,8 +2837,12 @@ g_type_register_static (GType            parent_type,
       node = type_node_new_W (pnode, type_name, NULL);
       type_add_flags_W (node, flags);
       type = NODE_TYPE (node);
+      #if 0 /* GTypeValueTable */
       type_data_make_W (node, info,
 			check_value_table_I (type_name, info->value_table) ? info->value_table : NULL);
+      #else
+      type_data_make_W (node, info);
+      #endif
     }
   G_WRITE_UNLOCK (&type_rw_lock);
   
@@ -3627,18 +3702,6 @@ g_type_interfaces (GType  type,
     }
 }
 
-typedef struct _QData QData;
-struct _GData
-{
-  guint  n_qdatas;
-  QData *qdatas;
-};
-struct _QData
-{
-  GQuark   quark;
-  gpointer data;
-};
-
 static inline gpointer
 type_get_qdata_L (TypeNode *node,
 		  GQuark    quark)
@@ -4163,8 +4226,12 @@ type_check_is_value_type_U (GType type)
  restart_check:
   if (node)
     {
+        #if 0 /* GTypeValueTable */
       if (node->data && NODE_REFCOUNT (node) > 0 &&
 	  node->data->common.value_table->value_init)
+        #else
+      if (0) /* node->data->common.value_table->value_init == NULL */
+        #endif
 	tflags = GPOINTER_TO_UINT (type_get_qdata_L (node, static_quark_type_flags));
       else if (NODE_IS_IFACE (node))
 	{
@@ -4194,7 +4261,7 @@ g_type_check_is_value_type (GType type)
 {
   return type_check_is_value_type_U (type);
 }
-
+#if 0 /* GTypeValueTable */
 gboolean
 g_type_check_value (const GValue *value)
 {
@@ -4207,7 +4274,8 @@ g_type_check_value_holds (const GValue *value,
 {
   return value && type_check_is_value_type_U (value->g_type) && g_type_is_a (value->g_type, type);
 }
-
+#endif
+#if 0 /* GTypeValueTable */
 /**
  * g_type_value_table_peek: (skip)
  * @type: a #GType
@@ -4272,7 +4340,7 @@ g_type_value_table_peek (GType type)
   
   return NULL;
 }
-
+#endif
 const gchar *
 g_type_name_from_instance (GTypeInstance *instance)
 {
@@ -4291,7 +4359,7 @@ g_type_name_from_class (GTypeClass *g_class)
     return g_type_name (g_class->g_type);
 }
 
-
+#if 0 /* GTypeValueTable */
 /* --- private api for gboxed.c --- */
 gpointer
 _g_type_boxed_copy (GType type, gpointer value)
@@ -4319,7 +4387,7 @@ _g_type_boxed_init (GType          type,
   node->data->boxed.copy_func = copy_func;
   node->data->boxed.free_func = free_func;
 }
-
+#endif
 /* --- initialization --- */
 /**
  * g_type_init_with_debug_flags:
@@ -4372,22 +4440,22 @@ gobject_init (void)
   /* Ensure GLib is initialized first, see
    * https://bugzilla.gnome.org/show_bug.cgi?id=756139
    */
-  GLIB_PRIVATE_CALL (glib_init) ();
+//   GLIB_PRIVATE_CALL (glib_init) ();
 
   G_WRITE_LOCK (&type_rw_lock);
 
   /* setup GObject library wide debugging flags */
-  env_string = g_getenv ("GOBJECT_DEBUG");
-  if (env_string != NULL)
-    {
-      GDebugKey debug_keys[] = {
-        { "objects", G_TYPE_DEBUG_OBJECTS },
-        { "instance-count", G_TYPE_DEBUG_INSTANCE_COUNT },
-        { "signals", G_TYPE_DEBUG_SIGNALS },
-      };
+//   env_string = g_getenv ("GOBJECT_DEBUG");
+//   if (env_string != NULL)
+//     {
+//       GDebugKey debug_keys[] = {
+//         { "objects", G_TYPE_DEBUG_OBJECTS },
+//         { "instance-count", G_TYPE_DEBUG_INSTANCE_COUNT },
+//         { "signals", G_TYPE_DEBUG_SIGNALS },
+//       };
 
-      _g_type_debug_flags = g_parse_debug_string (env_string, debug_keys, G_N_ELEMENTS (debug_keys));
-    }
+//       _g_type_debug_flags = g_parse_debug_string (env_string, debug_keys, G_N_ELEMENTS (debug_keys));
+//     }
 
   /* quarks */
   static_quark_type_flags = g_quark_from_static_string ("-g-type-private--GTypeFlags");
@@ -4412,11 +4480,13 @@ gobject_init (void)
   memset (&info, 0, sizeof (info));
   node = type_node_fundamental_new_W (G_TYPE_INTERFACE, g_intern_static_string ("GInterface"), G_TYPE_FLAG_DERIVABLE);
   type = NODE_TYPE (node);
+#if 0 /* GTypeValueTable */
   type_data_make_W (node, &info, NULL);
+#endif
   g_assert (type == G_TYPE_INTERFACE);
 
   G_WRITE_UNLOCK (&type_rw_lock);
-
+#if 0 /* GTypeValueTable */
   _g_value_c_init ();
 
   /* G_TYPE_TYPE_PLUGIN
@@ -4454,6 +4524,7 @@ gobject_init (void)
   /* Signal system
    */
   _g_signal_init ();
+#endif
 }
 
 #if defined (G_OS_WIN32)

@@ -32,13 +32,13 @@
 
 #include "ghash.h"
 #include "gmacros.h"
-#include "glib-private.h"
+// #include "glib-private.h"
 #include "gstrfuncs.h"
 #include "gatomic.h"
-#include "gtestutils.h"
+// #include "gtestutils.h"
 #include "gslice.h"
 #include "grefcount.h"
-#include "gvalgrind.h"
+// #include "gvalgrind.h"
 
 /* The following #pragma is here so we can do this...
  *
@@ -2151,7 +2151,7 @@ g_hash_table_size (GHashTable *hash_table)
 
   return hash_table->nnodes;
 }
-
+#if 0
 /**
  * g_hash_table_get_keys:
  * @hash_table: a #GHashTable
@@ -2273,7 +2273,7 @@ g_hash_table_get_values (GHashTable *hash_table)
 
   return retval;
 }
-
+#endif
 /* Hash functions.
  */
 

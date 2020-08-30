@@ -17,12 +17,13 @@
 #ifndef __G_TYPE_MODULE_H__
 #define __G_TYPE_MODULE_H__
 
-#if !defined (__GLIB_GOBJECT_H_INSIDE__) && !defined (GOBJECT_COMPILATION)
-#error "Only <glib-object.h> can be included directly."
-#endif
+// #if !defined (__GLIB_GOBJECT_H_INSIDE__) && !defined (GOBJECT_COMPILATION)
+// #error "Only <glib-object.h> can be included directly."
+// #endif
 
-#include <gobject/gobject.h>
-#include <gobject/genums.h>
+#include "gtype.h"
+// #include <gobject/gobject.h>
+// #include <gobject/genums.h>
 
 G_BEGIN_DECLS
 

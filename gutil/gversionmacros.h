@@ -25,9 +25,9 @@
 #ifndef __G_VERSION_MACROS_H__
 #define __G_VERSION_MACROS_H__
 
-#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
-#error "Only <glib.h> can be included directly."
-#endif
+// #if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+// #error "Only <glib.h> can be included directly."
+// #endif
 
 /* Version boundaries checks */
 

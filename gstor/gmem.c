@@ -35,10 +35,10 @@
 #include <signal.h>
 
 #include "gslice.h"
-#include "gbacktrace.h"
-#include "gtestutils.h"
+// #include "gbacktrace.h"
+// #include "gtestutils.h"
 #include "gthread.h"
-#include "glib_trace.h"
+// #include "glib_trace.h"
 
 /* notes on macros:
  * having G_DISABLE_CHECKS defined disables use of glib_mem_profiler_table and

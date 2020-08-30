@@ -25,12 +25,12 @@
 #ifndef __G_SLIST_H__
 #define __G_SLIST_H__
 
-#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
-#error "Only <glib.h> can be included directly."
-#endif
+// #if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+// #error "Only <glib.h> can be included directly."
+// #endif
 
-#include <glib/gmem.h>
-#include <glib/gnode.h>
+#include "gmem.h"
+// #include "gnode.h"
 
 G_BEGIN_DECLS
 

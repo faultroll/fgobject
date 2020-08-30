@@ -25,12 +25,12 @@
 #ifndef __G_HASH_H__
 #define __G_HASH_H__
 
-#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
-#error "Only <glib.h> can be included directly."
-#endif
+// #if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+// #error "Only <glib.h> can be included directly."
+// #endif
 
-#include <glib/gtypes.h>
-#include <glib/glist.h>
+#include "gtypes.h"
+// #include "glist.h"
 
 G_BEGIN_DECLS
 
@@ -118,6 +118,7 @@ guint       g_hash_table_foreach_steal     (GHashTable     *hash_table,
                                             gpointer        user_data);
 GLIB_AVAILABLE_IN_ALL
 guint       g_hash_table_size              (GHashTable     *hash_table);
+#if 0
 GLIB_AVAILABLE_IN_ALL
 GList *     g_hash_table_get_keys          (GHashTable     *hash_table);
 GLIB_AVAILABLE_IN_ALL
@@ -125,7 +126,7 @@ GList *     g_hash_table_get_values        (GHashTable     *hash_table);
 GLIB_AVAILABLE_IN_2_40
 gpointer *  g_hash_table_get_keys_as_array (GHashTable     *hash_table,
                                             guint          *length);
-
+#endif
 GLIB_AVAILABLE_IN_ALL
 void        g_hash_table_iter_init         (GHashTableIter *iter,
                                             GHashTable     *hash_table);

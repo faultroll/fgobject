@@ -25,11 +25,12 @@
 #ifndef __G_MEM_H__
 #define __G_MEM_H__
 
-#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
-#error "Only <glib.h> can be included directly."
-#endif
+// #if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+// #error "Only <glib.h> can be included directly."
+// #endif
 
-#include <glib/gutils.h>
+#include "gtypes.h"
+// #include <glib/gutils.h>
 
 G_BEGIN_DECLS
 

@@ -167,6 +167,8 @@
 
 #include "config.h"
 
+#include "gmessages.h"
+#if 0
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -1380,7 +1382,7 @@ g_logv (const gchar   *log_domain,
 
   g_free (msg_alloc);
 }
-
+#endif
 /**
  * g_log:
  * @log_domain: (nullable): the log domain, usually #G_LOG_DOMAIN, or %NULL
@@ -1409,13 +1411,15 @@ g_log (const gchar   *log_domain,
        const gchar   *format,
        ...)
 {
+#if 0
   va_list args;
   
   va_start (args, format);
   g_logv (log_domain, log_level, format, args);
   va_end (args);
+#endif
 }
-
+#if 0
 /* Return value must be 1 byte long (plus nul byte).
  * Reference: http://man7.org/linux/man-pages/man3/syslog.3.html#DESCRIPTION
  */
@@ -2753,7 +2757,7 @@ _g_log_writer_fallback (GLogLevelFlags   log_level,
 
   return G_LOG_WRITER_HANDLED;
 }
-
+#endif
 /**
  * g_return_if_fail_warning: (skip)
  * @log_domain: (nullable): log domain
@@ -2774,7 +2778,7 @@ g_return_if_fail_warning (const char *log_domain,
 	 pretty_function,
 	 expression);
 }
-
+#if 0
 /**
  * g_warn_message: (skip)
  * @domain: (nullable): log domain
@@ -3300,3 +3304,5 @@ g_printf_string_upper_bound (const gchar *format,
   gchar c;
   return _g_vsnprintf (&c, 1, format, args) + 1;
 }
+
+#endif

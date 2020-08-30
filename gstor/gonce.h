@@ -22,14 +22,14 @@
  * GLib at ftp://ftp.gtk.org/pub/gtk/.
  */
 
-#ifndef __G_THREAD_H__
-#define __G_THREAD_H__
+#ifndef __G_ONCE_H__
+#define __G_ONCE_H__
 
 // #if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
 // #error "Only <glib.h> can be included directly."
 // #endif
 
-#include "gatomic.h"
+#include "gthread.h"
 // #include <glib/gerror.h>
 // #include <glib/gutils.h>
 
@@ -44,15 +44,16 @@ typedef enum
   G_THREAD_ERROR_AGAIN /* Resource temporarily unavailable */
 } GThreadError;
 #endif
+#if 0 /* NOT ONCE_INIT_XXX */
 typedef gpointer (*GThreadFunc) (gpointer data);
 
 // typedef struct _GThread         GThread;
 
 typedef union  _GMutex          GMutex;
-typedef struct _GRecMutex       GRecMutex;
+// typedef struct _GRecMutex       GRecMutex;
 typedef struct _GRWLock         GRWLock;
 typedef struct _GCond           GCond;
-typedef struct _GPrivate        GPrivate;
+// typedef struct _GPrivate        GPrivate;
 typedef struct _GOnce           GOnce;
 
 union _GMutex
@@ -75,7 +76,8 @@ struct _GCond
   gpointer p;
   guint i[2];
 };
-
+#endif
+#if 0
 struct _GRecMutex
 {
   /*< private >*/
@@ -91,8 +93,8 @@ struct _GPrivate
   GDestroyNotify notify;
   gpointer future[2];
 };
-
-#if 0 /* ONCE_INIT_XXX */
+#endif
+#if 1 /* ONCE_INIT_XXX */
 typedef enum
 {
   G_ONCE_STATUS_NOTCALLED,
@@ -107,6 +109,7 @@ struct _GOnce
   volatile gpointer retval;
 };
 #endif
+#if 0 /* NOT ONCE_INIT_XXX */
 #define G_LOCK_NAME(name)             g__ ## name ## _lock
 #define G_LOCK_DEFINE_STATIC(name)    static G_LOCK_DEFINE (name)
 #define G_LOCK_DEFINE(name)           GMutex G_LOCK_NAME (name)
@@ -137,6 +140,7 @@ struct _GOnce
 #  define G_UNLOCK(name) g_mutex_unlock   (&G_LOCK_NAME (name))
 #  define G_TRYLOCK(name) g_mutex_trylock (&G_LOCK_NAME (name))
 #endif /* !G_DEBUG_LOCKS */
+#endif
 #if 0
 GLIB_AVAILABLE_IN_2_32
 GThread *       g_thread_ref                    (GThread        *thread);
@@ -160,7 +164,7 @@ gpointer        g_thread_join                   (GThread        *thread);
 GLIB_AVAILABLE_IN_ALL
 void            g_thread_yield                  (void);
 #endif
-
+#if 0 /* NOT ONCE_INIT_XXX */
 GLIB_AVAILABLE_IN_2_32
 void            g_mutex_init                    (GMutex         *mutex);
 GLIB_AVAILABLE_IN_2_32
@@ -188,6 +192,8 @@ GLIB_AVAILABLE_IN_2_32
 gboolean        g_rw_lock_reader_trylock        (GRWLock        *rw_lock);
 GLIB_AVAILABLE_IN_2_32
 void            g_rw_lock_reader_unlock         (GRWLock        *rw_lock);
+#endif
+#if 0
 GLIB_AVAILABLE_IN_2_32
 void            g_rec_mutex_init                (GRecMutex      *rec_mutex);
 GLIB_AVAILABLE_IN_2_32
@@ -198,6 +204,8 @@ GLIB_AVAILABLE_IN_2_32
 gboolean        g_rec_mutex_trylock             (GRecMutex      *rec_mutex);
 GLIB_AVAILABLE_IN_2_32
 void            g_rec_mutex_unlock              (GRecMutex      *rec_mutex);
+#endif
+#if 0 /* NOT ONCE_INIT_XXX */
 GLIB_AVAILABLE_IN_2_32
 void            g_cond_init                     (GCond          *cond);
 GLIB_AVAILABLE_IN_2_32
@@ -213,6 +221,8 @@ GLIB_AVAILABLE_IN_2_32
 gboolean        g_cond_wait_until               (GCond          *cond,
                                                  GMutex         *mutex,
                                                  gint64          end_time);
+#endif
+#if 0
 GLIB_AVAILABLE_IN_ALL
 gpointer        g_private_get                   (GPrivate       *key);
 GLIB_AVAILABLE_IN_ALL
@@ -221,8 +231,8 @@ void            g_private_set                   (GPrivate       *key,
 GLIB_AVAILABLE_IN_2_32
 void            g_private_replace               (GPrivate       *key,
                                                  gpointer        value);
-
-#if 0 /* ONCE_INIT_XXX */
+#endif
+#if 1 /* ONCE_INIT_XXX */
 GLIB_AVAILABLE_IN_ALL
 gpointer        g_once_impl                     (GOnce          *once,
                                                  GThreadFunc     func,
@@ -276,6 +286,7 @@ void            g_once_init_leave               (volatile void  *location,
 GLIB_AVAILABLE_IN_2_36
 guint          g_get_num_processors (void);
 #endif
+#if 0 /* NOT ONCE_INIT_XXX */
 /**
  * GMutexLocker:
  *
@@ -350,7 +361,8 @@ g_mutex_locker_free (GMutexLocker *locker)
 {
   g_mutex_unlock ((GMutex *) locker);
 }
-
+#endif
+#if 0
 /**
  * GRecMutexLocker:
  *
@@ -429,7 +441,8 @@ g_rec_mutex_locker_free (GRecMutexLocker *locker)
   g_rec_mutex_unlock ((GRecMutex *) locker);
 }
 G_GNUC_END_IGNORE_DEPRECATIONS
-
+#endif
+#if 0 /* NOT ONCE_INIT_XXX */
 /**
  * GRWLockWriterLocker:
  *
@@ -595,7 +608,7 @@ g_rw_lock_reader_locker_free (GRWLockReaderLocker *locker)
   g_rw_lock_reader_unlock ((GRWLock *) locker);
 }
 G_GNUC_END_IGNORE_DEPRECATIONS
-
+#endif
 G_END_DECLS
 
-#endif /* __G_THREAD_H__ */
+#endif /* __G_ONCE_H__ */

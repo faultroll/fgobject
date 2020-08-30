@@ -1,6 +1,8 @@
 
 project(gstor)
 
+set(${PROJECT_NAME}_PRJ_DIR ${PROJECT_SOURCE_DIR})
+
 set(${PROJECT_NAME}_SRC
 	gmem.c
 	gslice.c
@@ -17,6 +19,10 @@ set(${PROJECT_NAME}_SRC
 	${${PROJECT_NAME}_SRC}
 	gslist.c
 	gatomicarray.c
+)
+
+set(${PROJECT_NAME}_SRC
+	gonce.c
 )
 
 add_library(${PROJECT_NAME} OBJECT

@@ -17,11 +17,11 @@
 #ifndef __G_TYPE_PLUGIN_H__
 #define __G_TYPE_PLUGIN_H__
 
-#if !defined (__GLIB_GOBJECT_H_INSIDE__) && !defined (GOBJECT_COMPILATION)
-#error "Only <glib-object.h> can be included directly."
-#endif
+// #if !defined (__GLIB_GOBJECT_H_INSIDE__) && !defined (GOBJECT_COMPILATION)
+// #error "Only <glib-object.h> can be included directly."
+// #endif
 
-#include	<gobject/gtype.h>
+#include	"gtype.h"
 
 G_BEGIN_DECLS
 
@@ -60,10 +60,16 @@ typedef void  (*GTypePluginUnuse)		  (GTypePlugin     *plugin);
  * 
  * The type of the @complete_type_info function of #GTypePluginClass.
  */
+#if 0 /* GTypeValueTable */
 typedef void  (*GTypePluginCompleteTypeInfo)	  (GTypePlugin     *plugin,
 						   GType            g_type,
 						   GTypeInfo       *info,
 						   GTypeValueTable *value_table);
+#else
+typedef void  (*GTypePluginCompleteTypeInfo)	  (GTypePlugin     *plugin,
+						   GType            g_type,
+						   GTypeInfo       *info);
+#endif
 /**
  * GTypePluginCompleteInterfaceInfo:
  * @plugin: the #GTypePlugin
@@ -118,11 +124,18 @@ GLIB_AVAILABLE_IN_ALL
 void	g_type_plugin_use			(GTypePlugin	 *plugin);
 GLIB_AVAILABLE_IN_ALL
 void	g_type_plugin_unuse			(GTypePlugin	 *plugin);
+#if 0 /* GTypeValueTable */
 GLIB_AVAILABLE_IN_ALL
 void	g_type_plugin_complete_type_info	(GTypePlugin     *plugin,
 						 GType            g_type,
 						 GTypeInfo       *info,
 						 GTypeValueTable *value_table);
+#else
+GLIB_AVAILABLE_IN_ALL
+void	g_type_plugin_complete_type_info	(GTypePlugin     *plugin,
+						 GType            g_type,
+						 GTypeInfo       *info);
+#endif
 GLIB_AVAILABLE_IN_ALL
 void	g_type_plugin_complete_interface_info	(GTypePlugin     *plugin,
 						 GType            instance_type,

@@ -38,8 +38,11 @@
 
 #include "config.h"
 
-#include "gthread.h"
-// #include "gslist.h" /* ONCE_INIT_XXX */
+#include "gonce.h"
+#if 1 /* ONCE_INIT_XXX */
+#include "gslist.h" 
+#include "gmessages.h"
+#endif
 // #include "gthreadprivate.h"
 
 #include <string.h>
@@ -508,7 +511,7 @@
 // G_DEFINE_QUARK (g_thread_error, g_thread_error)
 
 /* Local Data {{{1 -------------------------------------------------------- */
-#if 0 /* ONCE_INIT_XXX */
+#if 1 /* ONCE_INIT_XXX */
 static GMutex    g_once_mutex;
 static GCond     g_once_cond;
 static GSList   *g_once_init_list = NULL;
@@ -518,7 +521,7 @@ static volatile guint g_thread_n_created_counter = 0;
 
 static void g_thread_cleanup (gpointer data);
 static GPrivate     g_thread_specific_private = G_PRIVATE_INIT (g_thread_cleanup);
-#endif
+
 /*
  * g_private_set_alloc0:
  * @key: a #GPrivate
@@ -545,8 +548,8 @@ g_private_set_alloc0 (GPrivate *key,
 
   return g_steal_pointer (&allocated);
 }
-
-#if 0 /* ONCE_INIT_XXX */
+#endif
+#if 1 /* ONCE_INIT_XXX */
 /* GOnce {{{1 ------------------------------------------------------------- */
 
 /**

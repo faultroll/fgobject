@@ -25,18 +25,18 @@
 #ifndef __G_MESSAGES_H__
 #define __G_MESSAGES_H__
 
-#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
-#error "Only <glib.h> can be included directly."
-#endif
+// #if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+// #error "Only <glib.h> can be included directly."
+// #endif
 
-#include <stdarg.h>
-#include <glib/gatomic.h>
-#include <glib/gtypes.h>
-#include <glib/gmacros.h>
-#include <glib/gvariant.h>
+// #include <stdarg.h>
+// #include <glib/gatomic.h>
+#include "gtypes.h"
+#include "gmacros.h"
+// #include <glib/gvariant.h>
 
 G_BEGIN_DECLS
-
+#if 0
 /* calculate a string size, guaranteed to fit format + args.
  */
 GLIB_AVAILABLE_IN_ALL
@@ -47,7 +47,7 @@ gsize	g_printf_string_upper_bound (const gchar* format,
  * log levels (0-7 are used by GLib).
  */
 #define G_LOG_LEVEL_USER_SHIFT  (8)
-
+#endif
 /* Glib log levels and flags.
  */
 typedef enum
@@ -66,7 +66,7 @@ typedef enum
 
   G_LOG_LEVEL_MASK              = ~(G_LOG_FLAG_RECURSION | G_LOG_FLAG_FATAL)
 } GLogLevelFlags;
-
+#if 0
 /* GLib log levels that are considered fatal by default */
 #define G_LOG_FATAL_MASK        (G_LOG_FLAG_RECURSION | G_LOG_LEVEL_ERROR)
 
@@ -264,12 +264,13 @@ void	_g_log_fallback_handler	(const gchar   *log_domain,
 						 GLogLevelFlags log_level,
 						 const gchar   *message,
 						 gpointer       unused_data);
-
+#endif
 /* Internal functions, used to implement the following macros */
 GLIB_AVAILABLE_IN_ALL
 void g_return_if_fail_warning (const char *log_domain,
 			       const char *pretty_function,
 			       const char *expression) G_ANALYZER_NORETURN;
+#if 0
 GLIB_AVAILABLE_IN_ALL
 void g_warn_message           (const char     *domain,
                                const char     *file,
@@ -291,11 +292,11 @@ void g_log_structured_standard (const gchar    *log_domain,
                                 const gchar    *func,
                                 const gchar    *message_format,
                                 ...) G_GNUC_PRINTF (6, 7);
-
+#endif
 #ifndef G_LOG_DOMAIN
 #define G_LOG_DOMAIN    ((gchar*) 0)
 #endif  /* G_LOG_DOMAIN */
-
+#if 0
 #if defined(G_HAVE_ISO_VARARGS) && !G_ANALYZER_ANALYZING
 #if defined(G_LOG_USE_STRUCTURED) && GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_56
 #define g_error(...)  G_STMT_START {                                            \
@@ -535,6 +536,7 @@ GPrintFunc      g_set_printerr_handler  (GPrintFunc      func);
     if G_LIKELY (expr) ; \
     else g_warn_message (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, #expr); \
   } while (0)
+#endif
 
 #ifdef G_DISABLE_CHECKS
 

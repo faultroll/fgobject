@@ -44,15 +44,15 @@ struct _TypeNode
 };
 ```
 - qname -- name
-- ref_count & is_classed & is_instantiatable -- for class & instantiate
+- ref_count & is_classed & is_instantiatable & data -- for class & instantiate
 - plugin -- dynamic type
 - n_children/children & n_supers/supers -- for class inherit(one child one parent, one parent many children)
 - global_gdata -- abstract type
-- mutatable_check_cache & data -- maybe for generic(value_table/GValue related), useless in oop
+- mutatable_check_cache & data(value_table) -- maybe for generic(value_table/GValue related), useless in oop
 - _prot -- for interface(one class many interface)
 - n_prerequisites & prerequisites -- for interface inherit(because interface struct don't have children or super like class)
 
-TypeNode storage is like below:
+[TypeNode](https://brionas.github.io/2014/06/14/GType-2/) storage is like below:
 
 ```asciiflow
                    static_fundamental_type_nodes
@@ -81,15 +81,21 @@ TypeNode storage is like below:
 The GType have three essential part of oop(TODO polymorph, maybe contains in interface), so we can just use GType to reinvent the oop system.
 (generic/GValue & signals/closure & ffi/marshal/paramspecs in GObject are unneeded for basic oop)
 
+[oop in c](https://www.gonwan.com/2011/03/13/oo-impelementation-in-c/)
+
+[learning gobject](http://www.wl-chuang.com/blog/categories/gobject)
+
 ## implement
 
 - sync
 
   synchronize
 
-  - gthread
+  - gthread(named glock seems better)
 
-    once_init/lock/...
+    once_init/lock/...(no thread func needed)
+
+    TODO gonce<--gslist<--gslice<--gprivate, and gonce&gpirvate are in the same file gthread.c. temporarily spilt gonce to stor, elegant way needed.
   
   - gatomic
 
@@ -119,4 +125,4 @@ The GType have three essential part of oop(TODO polymorph, maybe contains in int
   
   - config&glibconfig
 
-    platformdiff
+    platformdiff(you have build the origin glib with meson to get config.h&glibconfig.h)

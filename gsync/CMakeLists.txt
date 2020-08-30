@@ -1,6 +1,8 @@
 
 project(gsync)
 
+set(${PROJECT_NAME}_PRJ_DIR ${PROJECT_SOURCE_DIR})
+
 set(${PROJECT_NAME}_SRC
 	gatomic.c
 	grefcount.c
@@ -18,6 +20,7 @@ add_library(${PROJECT_NAME} OBJECT
 )
 add_library(fgobject::gsync ALIAS ${PROJECT_NAME})
 
+message("${PROJECT_SOURCE_DIR}")
 target_include_directories(${PROJECT_NAME}
 	PUBLIC ${${PROJECT_NAME}_PRJ_DIR}
 )

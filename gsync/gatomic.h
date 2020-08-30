@@ -20,11 +20,11 @@
 #ifndef __G_ATOMIC_H__
 #define __G_ATOMIC_H__
 
-#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
-#error "Only <glib.h> can be included directly."
-#endif
+// #if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+// #error "Only <glib.h> can be included directly."
+// #endif
 
-#include <glib/gtypes.h>
+#include "gtypes.h"
 
 G_BEGIN_DECLS
 

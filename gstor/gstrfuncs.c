@@ -35,7 +35,6 @@
 #include <string.h>
 #include <locale.h>
 #include <errno.h>
-#include <garray.h>
 #include <ctype.h>              /* For tolower() */
 
 #ifdef HAVE_XLOCALE_H
@@ -50,10 +49,12 @@
 /* do not include <unistd.h> here, it may interfere with g_strsignal() */
 
 #include "gstrfuncs.h"
-
-#include "gprintf.h"
-#include "gprintfint.h"
-#include "glibintl.h"
+#include "gmem.h"
+#include "gmessages.h"
+// #include "garray.h"
+// #include "gprintf.h"
+// #include "gprintfint.h"
+// #include "glibintl.h"
 
 
 /**
@@ -93,7 +94,7 @@
  * 64-bit integers. These macros are all named `G_*_FORMAT`; see
  * [Basic Types][glib-Basic-Types].
  */
-
+#if 0
 /**
  * g_ascii_isalnum:
  * @c: any character
@@ -341,7 +342,7 @@ get_C_locale (void)
   return C_locale;
 }
 #endif
-
+#endif
 /**
  * g_strdup:
  * @str: (nullable): the string to duplicate
@@ -489,7 +490,7 @@ g_stpcpy (gchar       *dest,
   return d - 1;
 #endif
 }
-
+#if 0
 /**
  * g_strdup_vprintf:
  * @format: (not nullable): a standard printf() format string, but notice
@@ -551,7 +552,7 @@ g_strdup_printf (const gchar *format,
 
   return buffer;
 }
-
+#endif
 /**
  * g_strconcat:
  * @string1: the first string to add, which must not be %NULL
@@ -606,7 +607,7 @@ g_strconcat (const gchar *string1, ...)
 
   return concat;
 }
-
+#if 0
 /**
  * g_strtod:
  * @nptr:    the string to convert to a numeric value.
@@ -1246,7 +1247,8 @@ g_ascii_strtoll (const gchar *nptr,
     return (gint64) result;
 #endif
 }
-
+#endif
+#if 0
 /**
  * g_strerror:
  * @errnum: the system error number. See the standard C %errno
@@ -2320,7 +2322,8 @@ g_strchomp (gchar *string)
 
   return string;
 }
-
+#endif
+#if 0
 /**
  * g_strsplit:
  * @string: a string to split
@@ -2616,7 +2619,7 @@ g_strjoinv (const gchar  *separator,
 
   return string;
 }
-
+#endif
 /**
  * g_strjoin:
  * @separator: (nullable): a string to insert between each of the
@@ -2686,7 +2689,7 @@ g_strjoin (const gchar *separator,
   return string;
 }
 
-
+#if 0
 /**
  * g_strstr_len:
  * @haystack: a string
@@ -2898,7 +2901,8 @@ g_str_has_prefix (const gchar *str,
 
   return strncmp (str, prefix, strlen (prefix)) == 0;
 }
-
+#endif
+#if 0
 /**
  * g_strv_length:
  * @str_array: a %NULL-terminated array of strings
@@ -3231,7 +3235,8 @@ g_strv_equal (const gchar * const *strv1,
 
   return (*strv1 == NULL && *strv2 == NULL);
 }
-
+#endif
+#if 0
 static gboolean
 str_has_sign (const gchar *str)
 {
@@ -3450,3 +3455,4 @@ g_ascii_string_to_unsigned (const gchar  *str,
 }
 
 G_DEFINE_QUARK (g-number-parser-error-quark, g_number_parser_error)
+#endif

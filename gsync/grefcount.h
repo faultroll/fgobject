@@ -19,12 +19,12 @@
 #ifndef __GREFCOUNT_H__
 #define __GREFCOUNT_H__
 
-#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
-#error "Only <glib.h> can be included directly."
-#endif
+// #if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+// #error "Only <glib.h> can be included directly."
+// #endif
 
-#include <glib/gatomic.h>
-#include <glib/gtypes.h>
+#include "gatomic.h"
+#include "gtypes.h"
 
 G_BEGIN_DECLS
 

@@ -25,17 +25,17 @@
 #ifndef __G_STRFUNCS_H__
 #define __G_STRFUNCS_H__
 
-#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
-#error "Only <glib.h> can be included directly."
-#endif
+// #if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+// #error "Only <glib.h> can be included directly."
+// #endif
 
 #include <stdarg.h>
-#include <glib/gmacros.h>
-#include <glib/gtypes.h>
-#include <glib/gerror.h>
+// #include "gmacros.h"
+#include "gtypes.h"
+// #include "gerror.h"
 
 G_BEGIN_DECLS
-
+#if 0
 /* Functions like the ones in <ctype.h> that are not affected by locale. */
 typedef enum {
   G_ASCII_ALNUM  = 1 << 0,
@@ -209,18 +209,18 @@ gchar*                g_strdown        (gchar       *string);
 GLIB_DEPRECATED
 gchar*                g_strup          (gchar       *string);
 
-
+#endif
 /* String utility functions that return a newly allocated string which
  * ought to be freed with g_free from the caller at some point.
  */
 GLIB_AVAILABLE_IN_ALL
 gchar*	              g_strdup	       (const gchar *str) G_GNUC_MALLOC;
-GLIB_AVAILABLE_IN_ALL
-gchar*	              g_strdup_printf  (const gchar *format,
-					...) G_GNUC_PRINTF (1, 2) G_GNUC_MALLOC;
-GLIB_AVAILABLE_IN_ALL
-gchar*	              g_strdup_vprintf (const gchar *format,
-					va_list      args) G_GNUC_PRINTF(1, 0) G_GNUC_MALLOC;
+// GLIB_AVAILABLE_IN_ALL
+// gchar*	              g_strdup_printf  (const gchar *format,
+// 					...) G_GNUC_PRINTF (1, 2) G_GNUC_MALLOC;
+// GLIB_AVAILABLE_IN_ALL
+// gchar*	              g_strdup_vprintf (const gchar *format,
+// 					va_list      args) G_GNUC_PRINTF(1, 0) G_GNUC_MALLOC;
 GLIB_AVAILABLE_IN_ALL
 gchar*	              g_strndup	       (const gchar *str,
 					gsize        n) G_GNUC_MALLOC;  
@@ -233,7 +233,7 @@ gchar*	              g_strconcat      (const gchar *string1,
 GLIB_AVAILABLE_IN_ALL
 gchar*                g_strjoin	       (const gchar  *separator,
 					...) G_GNUC_MALLOC G_GNUC_NULL_TERMINATED;
-
+#if 0
 /* Make a copy of a string interpreting C string -style escape
  * sequences. Inverse of g_strescape. The recognized sequences are \b
  * \f \n \r \t \\ \" and the octal format.
@@ -252,11 +252,11 @@ gchar*                g_strcompress    (const gchar *source) G_GNUC_MALLOC;
 GLIB_AVAILABLE_IN_ALL
 gchar*                g_strescape      (const gchar *source,
 					const gchar *exceptions) G_GNUC_MALLOC;
-
+#endif
 GLIB_AVAILABLE_IN_ALL
 gpointer              g_memdup	       (gconstpointer mem,
 					guint	       byte_size) G_GNUC_ALLOC_SIZE(2);
-
+#if 0
 /* NULL terminated string arrays.
  * g_strsplit(), g_strsplit_set() split up string into max_tokens tokens
  * at delim and return a newly allocated string array.
@@ -310,7 +310,8 @@ gboolean              g_strv_contains  (const gchar * const *strv,
 GLIB_AVAILABLE_IN_2_60
 gboolean              g_strv_equal     (const gchar * const *strv1,
                                         const gchar * const *strv2);
-
+#endif
+#if 0
 /* Convenience ASCII string to number API */
 
 /**
@@ -356,7 +357,7 @@ gboolean              g_ascii_string_to_unsigned   (const gchar  *str,
                                                     guint64       max,
                                                     guint64      *out_num,
                                                     GError      **error);
-
+#endif
 G_END_DECLS
 
 #endif /* __G_STRFUNCS_H__ */

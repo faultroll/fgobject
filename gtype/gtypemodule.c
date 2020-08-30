@@ -78,10 +78,16 @@ struct _ModuleInterfaceInfo
 };
 
 static void g_type_module_use_plugin              (GTypePlugin     *plugin);
+#if 0 /* GTypeValueTable */
 static void g_type_module_complete_type_info      (GTypePlugin     *plugin,
 						   GType            g_type,
 						   GTypeInfo       *info,
 						   GTypeValueTable *value_table);
+#else
+static void g_type_module_complete_type_info      (GTypePlugin     *plugin,
+						   GType            g_type,
+						   GTypeInfo       *info);
+#endif
 static void g_type_module_complete_interface_info (GTypePlugin     *plugin,
 						   GType            instance_type,
 						   GType            interface_type,
@@ -314,20 +320,27 @@ g_type_module_use_plugin (GTypePlugin *plugin)
       exit (1);
     }
 }
-
+#if 0 /* GTypeValueTable */
 static void
 g_type_module_complete_type_info (GTypePlugin     *plugin,
 				  GType            g_type,
 				  GTypeInfo       *info,
 				  GTypeValueTable *value_table)
+#else
+static void
+g_type_module_complete_type_info (GTypePlugin     *plugin,
+				  GType            g_type,
+				  GTypeInfo       *info)
+#endif
 {
   GTypeModule *module = G_TYPE_MODULE (plugin);
   ModuleTypeInfo *module_type_info = g_type_module_find_type_info (module, g_type);
 
   *info = module_type_info->info;
-  
+#if 0 /* GTypeValueTable */
   if (module_type_info->info.value_table)
     *value_table = *module_type_info->info.value_table;
+#endif
 }
 
 static void 
@@ -419,9 +432,10 @@ g_type_module_register_type (GTypeModule     *module,
 		     parent_type_name ? parent_type_name : "(unknown)");
 	  return 0;
 	}
-
+#if 0 /* GTypeValueTable */
       if (module_type_info->info.value_table)
 	g_free ((GTypeValueTable *) module_type_info->info.value_table);
+#endif
     }
   else
     {
@@ -435,10 +449,11 @@ g_type_module_register_type (GTypeModule     *module,
 
   module_type_info->loaded = TRUE;
   module_type_info->info = *type_info;
+#if 0 /* GTypeValueTable */
   if (type_info->value_table)
     module_type_info->info.value_table = g_memdup (type_info->value_table,
 						   sizeof (GTypeValueTable));
-
+#endif
   return module_type_info->type;
 }
 

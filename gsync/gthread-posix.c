@@ -41,13 +41,13 @@
 
 #include "gthread.h"
 
-#include "gmain.h"
+// #include "gmain.h"
 #include "gmessages.h"
-#include "gslice.h"
-#include "gstrfuncs.h"
-#include "gtestutils.h"
-#include "gthreadprivate.h"
-#include "gutils.h"
+// #include "gslice.h"
+// #include "gstrfuncs.h"
+// #include "gtestutils.h"
+// #include "gthreadprivate.h"
+// #include "gutils.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -1123,6 +1123,7 @@ g_private_replace (GPrivate *key,
     g_thread_abort (status, "pthread_setspecific");
 }
 
+#if 0
 /* {{{1 GThread */
 
 #define posix_check_err(err, name) G_STMT_START{			\
@@ -1376,7 +1377,7 @@ g_system_thread_set_name (const gchar *name)
   pthread_set_name_np (pthread_self (), name); /* on FreeBSD, DragonFlyBSD, OpenBSD */
 #endif
 }
-
+#endif
 /* {{{1 GMutex and GCond futex implementation */
 
 #if defined(USE_NATIVE_MUTEX)
