@@ -14,7 +14,7 @@ This is a learning-oop-in-c project, reinventing oop system in c based on gtype(
 - inherit
 - polymorph
 
-gobject seems be attractive by java oop, not c++ oop. It treats class and interface differently. 
+gobject seems be inspired by java oop, not c++ oop. It treats class and interface differently. 
 
 ``` c
 /* --- structures --- */
@@ -51,6 +51,32 @@ struct _TypeNode
 - mutatable_check_cache & data -- maybe for generic(value_table/GValue related), useless in oop
 - _prot -- for interface(one class many interface)
 - n_prerequisites & prerequisites -- for interface inherit(because interface struct don't have children or super like class)
+
+TypeNode storage is like below:
+
+```asciiflow
+                   static_fundamental_type_nodes
+
++---------+     +------------------------------------------------------------------+
+|         |     |  +------------------------------------------------------------+  |
+| iface   |     |  | class        | iface        | class         | ...          |  |
+| array   +----------+_prot       |              |               |              |  |
+|         |     |  |              |              |               |              |  |
++---------+     |  |              |              |               |              |  |
+   many-to-many |  | +children    | +children    |               |              |  |
+                |  +------------------------------------------------------------+  |
+                +------------------------------------------------------------------+
+                     |              |
+          one-to-many+----------+   +------+--------------------+
+                     |          |          |                    |
+                +----+----+  +--+------+   +--------------+     +--------------+
+                |         |  |         |   |              |     |              |
+                |         |  |         |   |              |     |              |
+                ++children|  ++children|   ++prerequisites|     ++prerequisites|
+                +---------+  +---------+   +--------------+     +--------------+
+                 |            |             |                    |
+                 +            +             +                    +
+```
 
 The GType have three essential part of oop(TODO polymorph, maybe contains in interface), so we can just use GType to reinvent the oop system.
 (generic/GValue & signals/closure & ffi/marshal/paramspecs in GObject are unneeded for basic oop)
