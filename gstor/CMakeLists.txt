@@ -22,6 +22,7 @@ set(${PROJECT_NAME}_SRC
 )
 
 set(${PROJECT_NAME}_SRC
+	${${PROJECT_NAME}_SRC}
 	gonce.c
 )
 

@@ -87,7 +87,7 @@ The GType have three essential part of oop(TODO polymorph, maybe contains in int
 
 ## implement
 
-- sync
+- gsync
 
   synchronize
 
@@ -101,7 +101,7 @@ The GType have three essential part of oop(TODO polymorph, maybe contains in int
 
   - grefcount
 
-- stor
+- gstor
 
   storage&datastructure
 
@@ -111,7 +111,7 @@ The GType have three essential part of oop(TODO polymorph, maybe contains in int
 
   - gatomicarray
 
-- util
+- gutil
 
   utility
 
@@ -126,3 +126,17 @@ The GType have three essential part of oop(TODO polymorph, maybe contains in int
   - config&glibconfig
 
     platformdiff(you have build the origin glib with meson to get config.h&glibconfig.h)
+
+- gtype
+
+  you don't need gobject, gtype is enough
+
+  - static
+    
+    gtype
+  
+  - dynamic
+    
+    gtypeplugin&gtypemodule
+
+    TODO gtypemodule use auto_ptr, which need dlist(glist.c), reinvent some

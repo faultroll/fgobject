@@ -364,6 +364,7 @@ slice_config_init (SliceConfig *config)
 
   *config = slice_config;
 
+#if 0 /* getenv */
   val = getenv ("G_SLICE");
   if (val != NULL)
     {
@@ -380,6 +381,7 @@ slice_config_init (SliceConfig *config)
         config->debug_blocks = TRUE;
     }
   else
+#endif
     {
       /* G_SLICE was not specified, so check if valgrind is running and
        * disable ourselves if it is.

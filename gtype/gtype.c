@@ -4445,18 +4445,19 @@ gobject_init (void)
   G_WRITE_LOCK (&type_rw_lock);
 
   /* setup GObject library wide debugging flags */
-//   env_string = g_getenv ("GOBJECT_DEBUG");
-//   if (env_string != NULL)
-//     {
-//       GDebugKey debug_keys[] = {
-//         { "objects", G_TYPE_DEBUG_OBJECTS },
-//         { "instance-count", G_TYPE_DEBUG_INSTANCE_COUNT },
-//         { "signals", G_TYPE_DEBUG_SIGNALS },
-//       };
+#if 0 /* getenv */
+  env_string = g_getenv ("GOBJECT_DEBUG");
+  if (env_string != NULL)
+    {
+      GDebugKey debug_keys[] = {
+        { "objects", G_TYPE_DEBUG_OBJECTS },
+        { "instance-count", G_TYPE_DEBUG_INSTANCE_COUNT },
+        { "signals", G_TYPE_DEBUG_SIGNALS },
+      };
 
-//       _g_type_debug_flags = g_parse_debug_string (env_string, debug_keys, G_N_ELEMENTS (debug_keys));
-//     }
-
+      _g_type_debug_flags = g_parse_debug_string (env_string, debug_keys, G_N_ELEMENTS (debug_keys));
+    }
+#endif
   /* quarks */
   static_quark_type_flags = g_quark_from_static_string ("-g-type-private--GTypeFlags");
   static_quark_iface_holder = g_quark_from_static_string ("-g-type-private--IFaceHolder");

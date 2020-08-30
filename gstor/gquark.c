@@ -34,7 +34,7 @@
 #include <string.h>
 
 #include "gquark.h"
-// #include "gslice.h"
+#include "gmem.h"
 #include "ghash.h"
 #include "gstrfuncs.h"
 #include "gthread.h"

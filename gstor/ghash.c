@@ -37,6 +37,7 @@
 #include "gatomic.h"
 // #include "gtestutils.h"
 #include "gslice.h"
+#include "gmem.h"
 #include "grefcount.h"
 // #include "gvalgrind.h"
 
