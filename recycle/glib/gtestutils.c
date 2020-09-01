@@ -2930,42 +2930,6 @@ g_assertion_message (const char     *domain,
     g_abort ();
 }
 
-/**
- * g_assertion_message_expr: (skip)
- * @domain: (nullable): log domain
- * @file: file containing the assertion
- * @line: line number of the assertion
- * @func: function containing the assertion
- * @expr: (nullable): expression which failed
- *
- * Internal function used to print messages from the public g_assert() and
- * g_assert_not_reached() macros.
- */
-void
-g_assertion_message_expr (const char     *domain,
-                          const char     *file,
-                          int             line,
-                          const char     *func,
-                          const char     *expr)
-{
-  char *s;
-  if (!expr)
-    s = g_strdup ("code should not be reached");
-  else
-    s = g_strconcat ("assertion failed: (", expr, ")", NULL);
-  g_assertion_message (domain, file, line, func, s);
-  g_free (s);
-
-  /* Normally g_assertion_message() won't return, but we need this for
-   * when test_nonfatal_assertions is set, since
-   * g_assertion_message_expr() is used for always-fatal assertions.
-   */
-  if (test_in_subprocess)
-    _exit (1);
-  else
-    g_abort ();
-}
-
 void
 g_assertion_message_cmpnum (const char     *domain,
                             const char     *file,

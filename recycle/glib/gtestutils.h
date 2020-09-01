@@ -169,25 +169,6 @@ typedef void (*GTestFixtureFunc) (gpointer      fixture,
                                         } G_STMT_END
 #endif
 
-#ifdef G_DISABLE_ASSERT
-/* https://gcc.gnu.org/onlinedocs/gcc-8.3.0/gcc/Other-Builtins.html#index-_005f_005fbuiltin_005funreachable
- * GCC 5 is not a strict lower bound for versions of GCC which provide __builtin_unreachable(). */
-#if __GNUC__ >= 5 || g_macro__has_builtin(__builtin_unreachable)
-#define g_assert_not_reached()          G_STMT_START { (void) 0; __builtin_unreachable (); } G_STMT_END
-#else  /* if __builtin_unreachable() is not supported: */
-#define g_assert_not_reached()          G_STMT_START { (void) 0; } G_STMT_END
-#endif
-
-#define g_assert(expr)                  G_STMT_START { (void) 0; } G_STMT_END
-#else /* !G_DISABLE_ASSERT */
-#define g_assert_not_reached()          G_STMT_START { g_assertion_message_expr (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, NULL); } G_STMT_END
-#define g_assert(expr)                  G_STMT_START { \
-                                             if G_LIKELY (expr) ; else \
-                                               g_assertion_message_expr (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, \
-                                                                         #expr); \
-                                        } G_STMT_END
-#endif /* !G_DISABLE_ASSERT */
-
 GLIB_AVAILABLE_IN_ALL
 int     g_strcmp0                       (const char     *str1,
                                          const char     *str2);
@@ -468,12 +449,6 @@ void    g_assertion_message             (const char     *domain,
                                          int             line,
                                          const char     *func,
                                          const char     *message);
-GLIB_AVAILABLE_IN_ALL
-void    g_assertion_message_expr        (const char     *domain,
-                                         const char     *file,
-                                         int             line,
-                                         const char     *func,
-                                         const char     *expr) G_GNUC_NORETURN;
 GLIB_AVAILABLE_IN_ALL
 void    g_assertion_message_cmpstr      (const char     *domain,
                                          const char     *file,

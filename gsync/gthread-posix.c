@@ -44,7 +44,7 @@
 // #include "gmain.h"
 #include "gmessages.h"
 // #include "gslice.h"
-// #include "gstrfuncs.h"
+#include "gstrfuncs.h"
 // #include "gtestutils.h"
 // #include "gthreadprivate.h"
 // #include "gutils.h"

@@ -683,8 +683,6 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
 GLIB_AVAILABLE_IN_ALL
 gint64 g_get_monotonic_time               (void);
-GLIB_AVAILABLE_IN_ALL
-gint64 g_get_real_time                    (void);
 
 
 /* Source manipulation by ID */

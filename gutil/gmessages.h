@@ -673,6 +673,45 @@ GPrintFunc      g_set_printerr_handler  (GPrintFunc      func);
 
 #endif /* !G_DISABLE_CHECKS */
 
+/* Crashes the program. */
+#if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_50
+#ifndef G_OS_WIN32
+#  include <stdlib.h>
+#  define g_abort() abort ()
+#else
+GLIB_AVAILABLE_IN_2_50
+void g_abort (void) G_GNUC_NORETURN G_ANALYZER_NORETURN;
+#endif
+#endif
+
+#ifdef G_DISABLE_ASSERT
+/* https://gcc.gnu.org/onlinedocs/gcc-8.3.0/gcc/Other-Builtins.html#index-_005f_005fbuiltin_005funreachable
+ * GCC 5 is not a strict lower bound for versions of GCC which provide __builtin_unreachable(). */
+#if __GNUC__ >= 5 || g_macro__has_builtin(__builtin_unreachable)
+#define g_assert_not_reached()          G_STMT_START { (void) 0; __builtin_unreachable (); } G_STMT_END
+#else  /* if __builtin_unreachable() is not supported: */
+#define g_assert_not_reached()          G_STMT_START { (void) 0; } G_STMT_END
+#endif
+
+#define g_assert(expr)                  G_STMT_START { (void) 0; } G_STMT_END
+#else /* !G_DISABLE_ASSERT */
+#define g_assert_not_reached()          G_STMT_START { g_assertion_message_expr (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, NULL); } G_STMT_END
+#define g_assert(expr)                  G_STMT_START { \
+                                             if G_LIKELY (expr) ; else \
+                                               g_assertion_message_expr (G_LOG_DOMAIN, __FILE__, __LINE__, G_STRFUNC, \
+                                                                         #expr); \
+                                        } G_STMT_END
+GLIB_AVAILABLE_IN_ALL
+void    g_assertion_message_expr        (const char     *domain,
+                                         const char     *file,
+                                         int             line,
+                                         const char     *func,
+                                         const char     *expr) G_GNUC_NORETURN;
+#endif /* !G_DISABLE_ASSERT */
+
+#define g_fprintf(...) G_STMT_START{ (gint)0; }G_STMT_END
+#define g_vfprintf(file, format, args) G_STMT_START{ (gint)0; }G_STMT_END
+
 G_END_DECLS
 
 #endif /* __G_MESSAGES_H__ */

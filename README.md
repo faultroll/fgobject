@@ -145,6 +145,8 @@ The GType have three essential part of oop(TODO polymorph, as callback function,
 
   you don't need gobject, gtype is enough
 
+  successfully compiled on x86_64-linux-gnu, target size 115kB
+
   - static
     
     gtype

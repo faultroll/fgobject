@@ -41,6 +41,7 @@
 // #include "gtestutils.h"
 #include "glib_trace.h"
 // #include "glib-init.h"
+#include "gmessages.h"
 
 #define QUARK_BLOCK_SIZE         2048
 #define QUARK_STRING_BLOCK_SIZE (4096 - sizeof (gsize))

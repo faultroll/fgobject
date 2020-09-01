@@ -108,8 +108,10 @@ GLIB_AVAILABLE_IN_ALL
 gchar*	              g_strcanon       (gchar        *string,
 					const gchar  *valid_chars,
 					gchar         substitutor);
+#endif
 GLIB_AVAILABLE_IN_ALL
 const gchar *         g_strerror       (gint	      errnum) G_GNUC_CONST;
+#if 0
 GLIB_AVAILABLE_IN_ALL
 const gchar *         g_strsignal      (gint	      signum) G_GNUC_CONST;
 GLIB_AVAILABLE_IN_ALL

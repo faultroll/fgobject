@@ -1036,10 +1036,12 @@ g_get_host_name (void)
 
   return hostname;
 }
-
+#endif
+/* prgname */
+#if 0
 G_LOCK_DEFINE_STATIC (g_prgname);
 static gchar *g_prgname = NULL;
-
+#endif
 /**
  * g_get_prgname:
  *
@@ -1059,6 +1061,7 @@ static gchar *g_prgname = NULL;
 const gchar*
 g_get_prgname (void)
 {
+#if 0
   gchar* retval;
 
   G_LOCK (g_prgname);
@@ -1066,6 +1069,9 @@ g_get_prgname (void)
   G_UNLOCK (g_prgname);
 
   return retval;
+#else
+  return NULL;
+#endif
 }
 
 /**
@@ -1086,12 +1092,14 @@ g_get_prgname (void)
 void
 g_set_prgname (const gchar *prgname)
 {
+#if 0
   G_LOCK (g_prgname);
   g_free (g_prgname);
   g_prgname = g_strdup (prgname);
   G_UNLOCK (g_prgname);
+#endif
 }
-
+#if 0
 G_LOCK_DEFINE_STATIC (g_application_name);
 static gchar *g_application_name = NULL;
 
@@ -3084,29 +3092,51 @@ g_check_setuid (void)
 #endif
 }
 
-#ifdef G_OS_WIN32
+#endif
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#endif /* HAVE_SYS_TIME_H */
 /**
- * g_abort:
+ * g_get_real_time:
  *
- * A wrapper for the POSIX abort() function.
+ * Queries the system wall-clock time.
  *
- * On Windows it is a function that makes extra effort (including a call
- * to abort()) to ensure that a debugger-catchable exception is thrown
- * before the program terminates.
+ * This call is functionally equivalent to g_get_current_time() except
+ * that the return value is often more convenient than dealing with a
+ * #GTimeVal.
  *
- * See your C library manual for more details about abort().
+ * You should only use this call if you are actually interested in the real
+ * wall-clock time.  g_get_monotonic_time() is probably more useful for
+ * measuring intervals.
  *
- * Since: 2.50
- */
-void
-g_abort (void)
+ * Returns: the number of microseconds since January 1, 1970 UTC.
+ *
+ * Since: 2.28
+ **/
+gint64
+g_get_real_time (void)
 {
-  /* One call to break the debugger */
-  DebugBreak ();
-  /* One call in case CRT changes its abort() behaviour */
-  abort ();
-  /* And one call to bind them all and terminate the program for sure */
-  ExitProcess (127);
+#ifndef G_OS_WIN32
+  struct timeval r;
+
+  /* this is required on alpha, there the timeval structs are ints
+   * not longs and a cast only would fail horribly */
+  gettimeofday (&r, NULL);
+
+  return (((gint64) r.tv_sec) * 1000000) + r.tv_usec;
+#else
+  FILETIME ft;
+  guint64 time64;
+
+  GetSystemTimeAsFileTime (&ft);
+  memmove (&time64, &ft, sizeof (FILETIME));
+
+  /* Convert from 100s of nanoseconds since 1601-01-01
+   * to Unix epoch. This is Y2038 safe.
+   */
+  time64 -= G_GINT64_CONSTANT (116444736000000000);
+  time64 /= 10;
+
+  return time64;
+#endif
 }
-#endif
-#endif

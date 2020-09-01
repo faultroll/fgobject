@@ -3308,3 +3308,70 @@ g_printf_string_upper_bound (const gchar *format,
 }
 
 #endif
+
+#ifdef G_OS_WIN32
+/**
+ * g_abort:
+ *
+ * A wrapper for the POSIX abort() function.
+ *
+ * On Windows it is a function that makes extra effort (including a call
+ * to abort()) to ensure that a debugger-catchable exception is thrown
+ * before the program terminates.
+ *
+ * See your C library manual for more details about abort().
+ *
+ * Since: 2.50
+ */
+void
+g_abort (void)
+{
+  /* One call to break the debugger */
+  DebugBreak ();
+  /* One call in case CRT changes its abort() behaviour */
+  abort ();
+  /* And one call to bind them all and terminate the program for sure */
+  ExitProcess (127);
+}
+#endif
+
+#ifdef G_DISABLE_ASSERT
+#else /* !G_DISABLE_ASSERT */
+/**
+ * g_assertion_message_expr: (skip)
+ * @domain: (nullable): log domain
+ * @file: file containing the assertion
+ * @line: line number of the assertion
+ * @func: function containing the assertion
+ * @expr: (nullable): expression which failed
+ *
+ * Internal function used to print messages from the public g_assert() and
+ * g_assert_not_reached() macros.
+ */
+void
+g_assertion_message_expr (const char     *domain,
+                          const char     *file,
+                          int             line,
+                          const char     *func,
+                          const char     *expr)
+{
+#if 0
+  char *s;
+  if (!expr)
+    s = g_strdup ("code should not be reached");
+  else
+    s = g_strconcat ("assertion failed: (", expr, ")", NULL);
+  g_assertion_message (domain, file, line, func, s);
+  g_free (s);
+
+  /* Normally g_assertion_message() won't return, but we need this for
+   * when test_nonfatal_assertions is set, since
+   * g_assertion_message_expr() is used for always-fatal assertions.
+   */
+  if (test_in_subprocess)
+    _exit (1);
+  else
+#endif
+    g_abort ();
+}
+#endif /* !G_DISABLE_ASSERT */

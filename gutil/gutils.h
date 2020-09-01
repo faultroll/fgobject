@@ -58,10 +58,13 @@ GLIB_AVAILABLE_IN_ALL
 const gchar *         g_get_tmp_dir          (void);
 GLIB_AVAILABLE_IN_ALL
 const gchar *         g_get_host_name	     (void);
+#endif
+/* prgname */
 GLIB_AVAILABLE_IN_ALL
 const gchar *         g_get_prgname          (void);
 GLIB_AVAILABLE_IN_ALL
 void                  g_set_prgname          (const gchar *prgname);
+#if 0
 GLIB_AVAILABLE_IN_ALL
 const gchar *         g_get_application_name (void);
 GLIB_AVAILABLE_IN_ALL
@@ -428,16 +431,6 @@ g_bit_storage_impl (gulong number)
 #endif
 }
 #if 0 /* g_bit_storage */
-/* Crashes the program. */
-#if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_50
-#ifndef G_OS_WIN32
-#  include <stdlib.h>
-#  define g_abort() abort ()
-#else
-GLIB_AVAILABLE_IN_2_50
-void g_abort (void) G_GNUC_NORETURN G_ANALYZER_NORETURN;
-#endif
-#endif
 
 /*
  * This macro is deprecated. This DllMain() is too complex. It is
@@ -483,6 +476,10 @@ DllMain (HINSTANCE hinstDLL,						\
 } GLIB_DEPRECATED_MACRO_IN_2_26
 #endif /* G_PLATFORM_WIN32 */
 #endif
+
+GLIB_AVAILABLE_IN_ALL
+gint64 g_get_real_time                    (void);
+
 G_END_DECLS
 
 #endif /* __G_UTILS_H__ */

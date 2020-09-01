@@ -23,6 +23,7 @@
 #include "gslice.h"
 #include "gthread.h"
 #include "gmacros.h"
+#include "gmessages.h"
 
 /* A GAtomicArray is a growable, mutable array of data
  * generally of the form of a header of a specific size and

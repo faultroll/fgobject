@@ -18,8 +18,14 @@ set(custom_common_compiler_flags
   -ffunction-sections
   -fdata-sections
   -fPIC
-  -Wno-unused # for debug
+  )
+set(custom_common_compiler_flags
+  ${custom_common_compiler_flags}
+  # for debug
+  # -w
+  -Wno-unused
   -Wno-sign-compare
+  -Wformat=0
   -Wno-cast-function-type
   )
 set(custom_c_compiler_flags

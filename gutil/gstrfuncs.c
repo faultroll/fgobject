@@ -1248,7 +1248,7 @@ g_ascii_strtoll (const gchar *nptr,
 #endif
 }
 #endif
-#if 0
+
 /**
  * g_strerror:
  * @errnum: the system error number. See the standard C %errno
@@ -1279,6 +1279,7 @@ g_ascii_strtoll (const gchar *nptr,
 const gchar *
 g_strerror (gint errnum)
 {
+#if 0
   static GHashTable *errors;
   G_LOCK_DEFINE_STATIC (errors);
   const gchar *msg;
@@ -1328,8 +1329,11 @@ g_strerror (gint errnum)
 
   errno = saved_errno;
   return msg;
+#else
+  return NULL;
+#endif
 }
-
+#if 0
 /**
  * g_strsignal:
  * @signum: the signal number. See the `signal` documentation

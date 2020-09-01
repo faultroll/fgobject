@@ -2799,51 +2799,6 @@ g_get_current_time (GTimeVal *result)
 G_GNUC_END_IGNORE_DEPRECATIONS
 
 /**
- * g_get_real_time:
- *
- * Queries the system wall-clock time.
- *
- * This call is functionally equivalent to g_get_current_time() except
- * that the return value is often more convenient than dealing with a
- * #GTimeVal.
- *
- * You should only use this call if you are actually interested in the real
- * wall-clock time.  g_get_monotonic_time() is probably more useful for
- * measuring intervals.
- *
- * Returns: the number of microseconds since January 1, 1970 UTC.
- *
- * Since: 2.28
- **/
-gint64
-g_get_real_time (void)
-{
-#ifndef G_OS_WIN32
-  struct timeval r;
-
-  /* this is required on alpha, there the timeval structs are ints
-   * not longs and a cast only would fail horribly */
-  gettimeofday (&r, NULL);
-
-  return (((gint64) r.tv_sec) * 1000000) + r.tv_usec;
-#else
-  FILETIME ft;
-  guint64 time64;
-
-  GetSystemTimeAsFileTime (&ft);
-  memmove (&time64, &ft, sizeof (FILETIME));
-
-  /* Convert from 100s of nanoseconds since 1601-01-01
-   * to Unix epoch. This is Y2038 safe.
-   */
-  time64 -= G_GINT64_CONSTANT (116444736000000000);
-  time64 /= 10;
-
-  return time64;
-#endif
-}
-
-/**
  * g_get_monotonic_time:
  *
  * Queries the system monotonic time.
