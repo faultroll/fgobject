@@ -33,11 +33,14 @@
 // #include "glib-private.h"
 #include "gconstructor.h"
 #include "gthread.h"
-
+#include "gslice.h"
 #include "gatomicarray.h"
 #include "gquark.h"
 #include "ghash.h"
 #include "gslist.h"
+#include "glib_trace.h"
+#include "gmessages.h"
+#include "gstrfuncs.h"
 
 #ifdef G_OS_WIN32
 #include <windows.h>
@@ -1234,6 +1237,7 @@ type_data_make_W (TypeNode              *node,
 #else
   else
     {
+      data = NULL;
     }
 #endif
   node->data = data;

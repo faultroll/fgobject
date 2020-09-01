@@ -18,7 +18,7 @@
 #include "config.h"
 
 #include "gtypeplugin.h"
-
+#include "gmessages.h"
 
 /**
  * SECTION:gtypeplugin
@@ -88,6 +88,15 @@ g_type_plugin_get_type (void)
 	sizeof (GTypePluginClass),
 	NULL,           /* base_init */
 	NULL,           /* base_finalize */
+	NULL,           /* class_init */
+	NULL,           /* class_finalize */
+	NULL,           /* class_data */
+	0,              /* instance_size */
+	0,              /* n_preallocs */
+	NULL,           /* instance_init */
+#if 0 /* GTypeValueTable */
+	NULL,           /* value handling */
+#endif
       };
       
       type_plugin_type = g_type_register_static (G_TYPE_INTERFACE, g_intern_static_string ("GTypePlugin"), &type_plugin_info, 0);

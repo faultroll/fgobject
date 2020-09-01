@@ -23,6 +23,7 @@
 
 #include "gtypes.h"
 #include "gquark.h"
+#include "gonce.h"
 
 G_BEGIN_DECLS
 

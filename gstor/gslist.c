@@ -32,6 +32,7 @@
 
 // #include "gtestutils.h"
 #include "gslice.h"
+#include "gmessages.h"
 
 /**
  * SECTION:linked_lists_single

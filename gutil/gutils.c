@@ -29,6 +29,7 @@
 #include "config.h"
 
 #include "gutils.h"
+#if 0 /* g_bit_storage */
 #include "gutilsprivate.h"
 
 #include <stdarg.h>
@@ -462,7 +463,7 @@ g_find_program_in_path (const gchar *program)
 
   return NULL;
 }
-
+#endif
 /* The functions below are defined this way for compatibility reasons.
  * See the note in gutils.h.
  */
@@ -523,7 +524,7 @@ guint
 {
   return g_bit_storage_impl (number);
 }
-
+#if 0 /* g_bit_storage */
 G_LOCK_DEFINE_STATIC (g_utils_global);
 
 typedef struct
@@ -3107,4 +3108,5 @@ g_abort (void)
   /* And one call to bind them all and terminate the program for sure */
   ExitProcess (127);
 }
+#endif
 #endif

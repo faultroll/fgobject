@@ -29,7 +29,7 @@
 // #error "Only <glib.h> can be included directly."
 // #endif
 
-// #include <stdarg.h>
+#include <stdarg.h>
 // #include <glib/gatomic.h>
 #include "gtypes.h"
 #include "gmacros.h"
@@ -99,6 +99,7 @@ void            g_log_default_handler   (const gchar    *log_domain,
 GLIB_AVAILABLE_IN_ALL
 GLogFunc        g_log_set_default_handler (GLogFunc      log_func,
 					   gpointer      user_data);
+#endif
 GLIB_AVAILABLE_IN_ALL
 void            g_log                   (const gchar    *log_domain,
                                          GLogLevelFlags  log_level,
@@ -109,6 +110,7 @@ void            g_logv                  (const gchar    *log_domain,
                                          GLogLevelFlags  log_level,
                                          const gchar    *format,
                                          va_list         args) G_GNUC_PRINTF(3, 0);
+#if 0
 GLIB_AVAILABLE_IN_ALL
 GLogLevelFlags  g_log_set_fatal_mask    (const gchar    *log_domain,
                                          GLogLevelFlags  fatal_mask);
@@ -283,7 +285,7 @@ void g_assert_warning         (const char *log_domain,
 			       const int   line,
 		               const char *pretty_function,
 		               const char *expression) G_GNUC_NORETURN;
-
+#endif
 GLIB_AVAILABLE_IN_2_56
 void g_log_structured_standard (const gchar    *log_domain,
                                 GLogLevelFlags  log_level,
@@ -292,11 +294,11 @@ void g_log_structured_standard (const gchar    *log_domain,
                                 const gchar    *func,
                                 const gchar    *message_format,
                                 ...) G_GNUC_PRINTF (6, 7);
-#endif
+
 #ifndef G_LOG_DOMAIN
 #define G_LOG_DOMAIN    ((gchar*) 0)
 #endif  /* G_LOG_DOMAIN */
-#if 0
+
 #if defined(G_HAVE_ISO_VARARGS) && !G_ANALYZER_ANALYZING
 #if defined(G_LOG_USE_STRUCTURED) && GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_56
 #define g_error(...)  G_STMT_START {                                            \
@@ -454,7 +456,7 @@ g_debug (const gchar *format,
   va_end (args);
 }
 #endif  /* !__GNUC__ */
-
+#if 0
 /**
  * g_warning_once:
  * @...: format string, followed by parameters to insert

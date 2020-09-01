@@ -41,14 +41,14 @@
 // #include "gmain.h"
 #include "gmem.h"               /* gslice.h */
 #include "gstrfuncs.h"
-// #include "gutils.h"
+#include "gutils.h"
 // #include "gtrashstack.h"
 // #include "gtestutils.h"
 #include "gthread.h"
 // #include "gthreadprivate.h"
-// #include "glib_trace.h"
+#include "glib_trace.h"
 // #include "gprintf.h"
-
+#include "gmessages.h"
 // #include "gvalgrind.h"
 
 /**

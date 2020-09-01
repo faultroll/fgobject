@@ -10,9 +10,13 @@ set(${PROJECT_NAME}_SRC
 set(${PROJECT_NAME}_SRC
 	${${PROJECT_NAME}_SRC}
 	gthread.c
-	# TODO auto-choose
+	# TODO auto-choose by platform
 	gthread-posix.c
 	# gthread-win32.c
+)
+
+set(${PROJECT_NAME}_SRC
+	${${PROJECT_NAME}_SRC}
 )
 
 add_library(${PROJECT_NAME} OBJECT

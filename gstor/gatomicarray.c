@@ -20,7 +20,7 @@
 #include <string.h>
 
 #include "gatomicarray.h"
-
+#include "gslice.h"
 #include "gthread.h"
 #include "gmacros.h"
 

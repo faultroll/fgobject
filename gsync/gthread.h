@@ -221,6 +221,9 @@ void            g_private_set                   (GPrivate       *key,
 GLIB_AVAILABLE_IN_2_32
 void            g_private_replace               (GPrivate       *key,
                                                  gpointer        value);
+GLIB_AVAILABLE_IN_ALL /* for gslice */
+gpointer        g_private_set_alloc0            (GPrivate       *key,
+                                                 gsize           size);
 
 #if 0 /* ONCE_INIT_XXX */
 GLIB_AVAILABLE_IN_ALL

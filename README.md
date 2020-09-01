@@ -78,38 +78,10 @@ struct _TypeNode
                  +            +             +                    +
 ```
 
-The GType have three essential part of oop(TODO polymorph, maybe contains in interface), so we can just use GType to reinvent the oop system.
+The GType have three essential part of oop(TODO polymorph, as callback function, maybe contains in interface), so we can just use GType to reinvent the [oop system in c](https://www.gonwan.com/2011/03/13/oo-impelementation-in-c/).
 (generic/GValue & signals/closure & ffi/marshal/paramspecs in GObject are unneeded for basic oop)
 
-[oop in c](https://www.gonwan.com/2011/03/13/oo-impelementation-in-c/)
-
-[learning gobject](http://www.wl-chuang.com/blog/categories/gobject)
-
 ## implement
-
-- gsync
-
-  synchronize
-
-  - gthread(named glock seems better)
-
-    once_init/lock/...(no thread func needed)
-
-    TODO gonce<--gslist<--gslice<--gprivate, and gonce&gpirvate are in the same file gthread.c. temporarily spilt gonce to stor, elegant way needed.
-  
-  - gatomic
-
-  - grefcount
-
-- gstor
-
-  storage&datastructure
-
-  - gquark&ghash&gslist
-
-  - gslice&gmem&gstrfunc
-
-  - gatomicarray
 
 - gutil
 
@@ -121,11 +93,53 @@ The GType have three essential part of oop(TODO polymorph, maybe contains in int
   
   - gmessages
 
-    return_if_xxx
+    return_if_xxx/g_warning/...
+
+    gabort/gassert/...
   
   - config&glibconfig
 
     platformdiff(you have build the origin glib with meson to get config.h&glibconfig.h)
+
+  - gutils&gmem&gstrfunc
+
+    g_bit_storage/...
+
+  - trace
+
+    stub, remove TRACE(...)
+
+- gsync
+
+  synchronize
+
+  - gthread(named glock seems better)
+
+    once_init/lock/...(no thread func needed)
+
+    DONE spilt to gcons. (gonce<--gslist<--gslice<--gprivate, and gonce&gpirvate are in the same file gthread.c. temporarily spilt gonce to stor) TODO elegant way needed.
+  
+  - gatomic
+
+  - grefcount
+
+- gstor
+
+  storage&datastructure
+
+  - gquark&ghash&gslist
+
+  - gslice
+
+  - gslist&gatomicarray
+
+- gcons
+
+  constructor
+
+  - gonce(spilt from gthread, for it relay on gslist)
+
+  - constructor.h
 
 - gtype
 
@@ -140,3 +154,8 @@ The GType have three essential part of oop(TODO polymorph, maybe contains in int
     gtypeplugin&gtypemodule
 
     TODO gtypemodule use auto_ptr, which need dlist(glist.c), reinvent some
+
+- tests
+  
+  demos from learning gobject [1](http://www.wl-chuang.com/blog/categories/gobject), [2](http://garfileo.is-programmer.com/2011/7/14/gobject-notes.27977.html), ...
+

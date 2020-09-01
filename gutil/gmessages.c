@@ -1229,7 +1229,7 @@ typedef struct {
 } GTestExpectedMessage;
 
 static GSList *expected_messages = NULL;
-
+#endif
 /**
  * g_logv:
  * @log_domain: (nullable): the log domain, or %NULL for the default ""
@@ -1257,6 +1257,7 @@ g_logv (const gchar   *log_domain,
 	const gchar   *format,
 	va_list	       args)
 {
+  #if 0
   gboolean was_fatal = (log_level & G_LOG_FLAG_FATAL) != 0;
   gboolean was_recursion = (log_level & G_LOG_FLAG_RECURSION) != 0;
   gchar buffer[1025], *msg, *msg_alloc = NULL;
@@ -1381,8 +1382,9 @@ g_logv (const gchar   *log_domain,
     }
 
   g_free (msg_alloc);
+  #endif
 }
-#endif
+
 /**
  * g_log:
  * @log_domain: (nullable): the log domain, usually #G_LOG_DOMAIN, or %NULL
@@ -1411,13 +1413,11 @@ g_log (const gchar   *log_domain,
        const gchar   *format,
        ...)
 {
-#if 0
   va_list args;
   
   va_start (args, format);
   g_logv (log_domain, log_level, format, args);
   va_end (args);
-#endif
 }
 #if 0
 /* Return value must be 1 byte long (plus nul byte).
@@ -1934,7 +1934,7 @@ g_log_structured_array (GLogLevelFlags   log_level,
   if (log_level & G_LOG_FATAL_MASK)
     _g_log_abort (!(log_level & G_LOG_FLAG_RECURSION));
 }
-
+#endif
 /* Semi-private helper function to implement the g_message() (etc.) macros
  * with support for G_GNUC_PRINTF so that @message_format can be checked
  * with -Wformat. */
@@ -1947,6 +1947,7 @@ g_log_structured_standard (const gchar    *log_domain,
                            const gchar    *message_format,
                            ...)
 {
+  #if 0
   GLogField fields[] =
     {
       { "PRIORITY", log_level_to_priority (log_level), -1 },
@@ -1986,8 +1987,9 @@ g_log_structured_standard (const gchar    *log_domain,
   g_log_structured_array (log_level, fields, n_fields);
 
   g_free (message_allocated);
+  #endif
 }
-
+#if 0
 /**
  * g_log_set_writer_func:
  * @func: log writer function, which must not be %NULL

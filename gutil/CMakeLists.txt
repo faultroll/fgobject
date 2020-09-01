@@ -5,6 +5,13 @@ set(${PROJECT_NAME}_PRJ_DIR ${PROJECT_SOURCE_DIR})
 
 set(${PROJECT_NAME}_SRC
 	gmessages.c
+	gutils.c
+)
+
+set(${PROJECT_NAME}_SRC
+	${${PROJECT_NAME}_SRC}
+	gmem.c
+	gstrfuncs.c
 )
 
 add_library(${PROJECT_NAME} OBJECT

@@ -40,6 +40,7 @@
 #include "gmem.h"
 #include "grefcount.h"
 // #include "gvalgrind.h"
+#include "gmessages.h"
 
 /* The following #pragma is here so we can do this...
  *

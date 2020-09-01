@@ -18,6 +18,9 @@ set(custom_common_compiler_flags
   -ffunction-sections
   -fdata-sections
   -fPIC
+  -Wno-unused # for debug
+  -Wno-sign-compare
+  -Wno-cast-function-type
   )
 set(custom_c_compiler_flags
   ${custom_common_compiler_flags}
@@ -42,12 +45,14 @@ set_custom_flags("cxx" "linker" custom_cxx_compiler_flags)
 add_subdirectory(gutil)
 add_subdirectory(gsync)
 add_subdirectory(gstor)
+add_subdirectory(gcons)
 add_subdirectory(gtype)
 
 add_library(${PROJECT_NAME} SHARED
 	$<TARGET_OBJECTS:fgobject::gutil>
 	$<TARGET_OBJECTS:fgobject::gsync>
-	$<TARGET_OBJECTS:fgobject::gstor>
+  $<TARGET_OBJECTS:fgobject::gstor>
+	$<TARGET_OBJECTS:fgobject::gcons>
 	$<TARGET_OBJECTS:fgobject::gtype>
 )
 add_library(fgobject::fgobject ALIAS ${PROJECT_NAME})

@@ -39,6 +39,8 @@
 #include "config.h"
 
 #include "gthread.h"
+#include "gmem.h"
+#include "gmessages.h"
 // #include "gslist.h" /* ONCE_INIT_XXX */
 // #include "gthreadprivate.h"
 

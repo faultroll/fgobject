@@ -25,15 +25,16 @@
 #ifndef __G_UTILS_H__
 #define __G_UTILS_H__
 
-#if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
-#error "Only <glib.h> can be included directly."
-#endif
+// #if !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+// #error "Only <glib.h> can be included directly."
+// #endif
 
-#include <glib/gtypes.h>
-#include <stdarg.h>
+#include "gtypes.h"
+// #include <stdarg.h>
 
 G_BEGIN_DECLS
 
+#if 0 /* g_bit_storage */
 /* Define G_VA_COPY() to do the right thing for copying va_list variables.
  * glibconfig.h may have already defined G_VA_COPY as va_copy or __va_copy.
  */
@@ -353,7 +354,7 @@ int atexit (void (*)(void));
 /* Look for an executable in PATH, following execvp() rules */
 GLIB_AVAILABLE_IN_ALL
 gchar*  g_find_program_in_path  (const gchar *program);
-
+#endif
 /* Bit tests
  *
  * These are defined in a convoluted way because we want the compiler to
@@ -426,7 +427,7 @@ g_bit_storage_impl (gulong number)
   return n_bits;
 #endif
 }
-
+#if 0 /* g_bit_storage */
 /* Crashes the program. */
 #if GLIB_VERSION_MAX_ALLOWED >= GLIB_VERSION_2_50
 #ifndef G_OS_WIN32
@@ -481,7 +482,7 @@ DllMain (HINSTANCE hinstDLL,						\
   return TRUE;								\
 } GLIB_DEPRECATED_MACRO_IN_2_26
 #endif /* G_PLATFORM_WIN32 */
-
+#endif
 G_END_DECLS
 
 #endif /* __G_UTILS_H__ */

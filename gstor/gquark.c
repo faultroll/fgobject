@@ -39,7 +39,7 @@
 #include "gstrfuncs.h"
 #include "gthread.h"
 // #include "gtestutils.h"
-// #include "glib_trace.h"
+#include "glib_trace.h"
 // #include "glib-init.h"
 
 #define QUARK_BLOCK_SIZE         2048

@@ -13,6 +13,10 @@ set(${PROJECT_NAME}_SRC
 	# gtypemodule.c
 )
 
+set(${PROJECT_NAME}_SRC
+	${${PROJECT_NAME}_SRC}
+)
+
 add_library(${PROJECT_NAME} OBJECT
 	${${PROJECT_NAME}_SRC}
 )
@@ -30,5 +34,6 @@ target_link_libraries(${PROJECT_NAME}
 	PUBLIC fgobject::gutil
 	PUBLIC fgobject::gsync
 	PUBLIC fgobject::gstor
+	PUBLIC fgobject::gcons
 )
 
