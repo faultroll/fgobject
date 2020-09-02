@@ -53,8 +53,9 @@ typedef struct _GRecMutex       GRecMutex;
 typedef struct _GRWLock         GRWLock;
 typedef struct _GCond           GCond;
 typedef struct _GPrivate        GPrivate;
+#if 0 /* ONCE_INIT_XXX */
 typedef struct _GOnce           GOnce;
-
+#endif
 union _GMutex
 {
   /*< private >*/

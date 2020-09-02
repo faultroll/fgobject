@@ -53,6 +53,7 @@ add_subdirectory(gsync)
 add_subdirectory(gstor)
 add_subdirectory(gcons)
 add_subdirectory(gtype)
+add_subdirectory(demos)
 
 add_library(${PROJECT_NAME} SHARED
 	$<TARGET_OBJECTS:fgobject::gutil>
@@ -64,7 +65,12 @@ add_library(${PROJECT_NAME} SHARED
 add_library(fgobject::fgobject ALIAS ${PROJECT_NAME})
 
 target_include_directories(${PROJECT_NAME}
-	PRIVATE ${${PROJECT_NAME}_PRJ_DIR}
+  PRIVATE ${${PROJECT_NAME}_PRJ_DIR}
+  # TODO install to another dir instead
+  PUBLIC ${${PROJECT_NAME}_PRJ_DIR}/gtype
+  PUBLIC ${${PROJECT_NAME}_PRJ_DIR}/gcons
+  PUBLIC ${${PROJECT_NAME}_PRJ_DIR}/gstor
+  PUBLIC ${${PROJECT_NAME}_PRJ_DIR}/gutil
 )
 
 # target_compile_definitions(${PROJECT_NAME}

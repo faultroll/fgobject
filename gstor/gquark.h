@@ -38,6 +38,8 @@ typedef guint32 GQuark;
 /* Quarks (string<->id association)
  */
 GLIB_AVAILABLE_IN_ALL
+void                  g_quark_init               (void);
+GLIB_AVAILABLE_IN_ALL
 GQuark                g_quark_try_string         (const gchar *string);
 GLIB_AVAILABLE_IN_ALL
 GQuark                g_quark_from_static_string (const gchar *string);

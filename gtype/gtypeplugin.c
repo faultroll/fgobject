@@ -19,6 +19,7 @@
 
 #include "gtypeplugin.h"
 #include "gmessages.h"
+#include "gquark.h"
 
 /**
  * SECTION:gtypeplugin

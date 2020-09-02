@@ -29,7 +29,7 @@
 // #error "Only <glib.h> can be included directly."
 // #endif
 
-#include "gthread.h"
+#include "gtypes.h"
 // #include <glib/gerror.h>
 // #include <glib/gutils.h>
 
@@ -44,9 +44,9 @@ typedef enum
   G_THREAD_ERROR_AGAIN /* Resource temporarily unavailable */
 } GThreadError;
 #endif
-#if 0 /* NOT ONCE_INIT_XXX */
-typedef gpointer (*GThreadFunc) (gpointer data);
 
+typedef gpointer (*GThreadFunc) (gpointer data);
+#if 0 /* NOT ONCE_INIT_XXX */
 // typedef struct _GThread         GThread;
 
 typedef union  _GMutex          GMutex;
@@ -54,8 +54,9 @@ typedef union  _GMutex          GMutex;
 typedef struct _GRWLock         GRWLock;
 typedef struct _GCond           GCond;
 // typedef struct _GPrivate        GPrivate;
+#endif
 typedef struct _GOnce           GOnce;
-
+#if 0 /* NOT ONCE_INIT_XXX */
 union _GMutex
 {
   /*< private >*/

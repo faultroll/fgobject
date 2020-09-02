@@ -4444,8 +4444,11 @@ gobject_init (void)
   /* Ensure GLib is initialized first, see
    * https://bugzilla.gnome.org/show_bug.cgi?id=756139
    */
-//   GLIB_PRIVATE_CALL (glib_init) ();
-
+#if 0 /* glib_init */
+  GLIB_PRIVATE_CALL (glib_init) ();
+#else
+  g_quark_init();
+#endif
   G_WRITE_LOCK (&type_rw_lock);
 
   /* setup GObject library wide debugging flags */
@@ -4487,17 +4490,19 @@ gobject_init (void)
   type = NODE_TYPE (node);
 #if 0 /* GTypeValueTable */
   type_data_make_W (node, &info, NULL);
+#else
+  type_data_make_W (node, &info);
 #endif
   g_assert (type == G_TYPE_INTERFACE);
 
   G_WRITE_UNLOCK (&type_rw_lock);
 #if 0 /* GTypeValueTable */
   _g_value_c_init ();
-
+#endif
   /* G_TYPE_TYPE_PLUGIN
    */
   g_type_ensure (g_type_plugin_get_type ());
-
+#if 0 /* GTypeValueTable */
   /* G_TYPE_* value types
    */
   _g_value_types_init ();

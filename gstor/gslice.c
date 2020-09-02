@@ -290,6 +290,7 @@ static SliceConfig slice_config = {
   1,            /* color increment, alt: 0x7fffffff */
 };
 static GMutex      smc_tree_mutex; /* mutex for G_SLICE=debug-blocks */
+gboolean g_mem_gc_friendly = TRUE;
 
 /* --- auxiliary functions --- */
 void

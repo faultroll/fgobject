@@ -22,7 +22,9 @@
 // #endif
 
 #include "gtypes.h"
+#if 1 /* GQuark */
 #include "gquark.h"
+#endif
 #include "gonce.h"
 
 G_BEGIN_DECLS
@@ -701,8 +703,10 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
 GLIB_AVAILABLE_IN_ALL
 const gchar *         g_type_name                    (GType            type);
+#if 1 /* GQuark */
 GLIB_AVAILABLE_IN_ALL
 GQuark                g_type_qname                   (GType            type);
+#endif
 GLIB_AVAILABLE_IN_ALL
 GType                 g_type_from_name               (const gchar     *name);
 GLIB_AVAILABLE_IN_ALL
@@ -745,7 +749,7 @@ GType*                g_type_children                (GType            type,
 GLIB_AVAILABLE_IN_ALL
 GType*                g_type_interfaces              (GType            type,
 						      guint           *n_interfaces);
-
+#if 1 /* GQuark */
 /* per-type _static_ data */
 GLIB_AVAILABLE_IN_ALL
 void                  g_type_set_qdata               (GType            type,
@@ -754,6 +758,7 @@ void                  g_type_set_qdata               (GType            type,
 GLIB_AVAILABLE_IN_ALL
 gpointer              g_type_get_qdata               (GType            type,
 						      GQuark           quark);
+#endif
 GLIB_AVAILABLE_IN_ALL
 void		      g_type_query		     (GType	       type,
 						      GTypeQuery      *query);

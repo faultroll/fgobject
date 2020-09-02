@@ -42,6 +42,7 @@
 #if 1 /* ONCE_INIT_XXX */
 #include "gslist.h" 
 #include "gmessages.h"
+#include "gthread.h"
 #endif
 // #include "gthreadprivate.h"
 

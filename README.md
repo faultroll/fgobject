@@ -1,4 +1,8 @@
 
+excuse my poor chinglish
+
+---
+
 ## perpose
 
 This is a learning-oop-in-c project, reinventing oop system in c based on gtype(you don't need gobject, so we make it fallen, fallen from the sky we cannot touch).
@@ -7,12 +11,10 @@ This is a learning-oop-in-c project, reinventing oop system in c based on gtype(
 - minimize gtype for embedded linux (daydreaming: run on mcu like stm32/8051) 
 - learning cmake & gtestutil & github-ci
 
----
-
-## TODO oop
-- encaps
-- inherit
-- polymorph
+## oop in gobject
+- encapsulation	
+- inheritance
+- polymorphism
 
 gobject seems be inspired by java oop, not c++ oop. It treats class and interface differently. 
 
@@ -79,10 +81,37 @@ struct _TypeNode
 ```
 
 The GType have three essential part of oop(TODO polymorph, as callback function, maybe contains in interface), so we can just use GType to reinvent the [oop system in c](https://www.gonwan.com/2011/03/13/oo-impelementation-in-c/).
-(generic/GValue & signals/closure & ffi/marshal/paramspecs in GObject are unneeded for basic oop)
+(generic/GValue & [signals/closure](http://pingf.is-programmer.com/posts/21355.html) & ffi/marshal/paramspecs in GObject are unneeded for basic oop)
 
 ## implement
 
+based on glib-2.64.4 (in config.h, seems no relative changes in 2.64.5). removes the some features above in gtype(not neceesary, and IMO user should manage memory by themself)
+use following sentence to build the library
+``` cmake
+cmake -B build && make -j -C build -f Makefile
+```
+the implement is as follow
+```asciiflow
++-------+   +-------+
+| gtype <-+-+ gcons |
++-------+ | +---^---+
+          |     |
+          | +---+---+
+          +-+ gstor |
+          | +---^---+
+          |     |
+          | +---+---+
+          +-+ gsync |       bare metal
+          | +---^---+       +-------+
+          |     |           | libc  |
+          | +---+---+       +-------+
+          +-+ gutil <-------+
+            +-------+       +-------+
+                            | posix |
+                            +-------+
+                               os
+
+```
 - gutil
 
   utility
@@ -123,21 +152,29 @@ The GType have three essential part of oop(TODO polymorph, as callback function,
 
   - grefcount
 
+    ghash -- grefcount -- gatomic
+
 - gstor
 
   storage&datastructure
 
   - gquark&ghash&gslist
 
+    gquark -- ghash -- gslice
+
   - gslice
 
   - gslist&gatomicarray
+
+    gatomicarray -- gslice
 
 - gcons
 
   constructor
 
   - gonce(spilt from gthread, for it relay on gslist)
+
+    gonce(gthread) -- gslist -- gslice -- gprivate(gthread) -- gmem
 
   - constructor.h
 
@@ -158,6 +195,20 @@ The GType have three essential part of oop(TODO polymorph, as callback function,
     TODO gtypemodule use auto_ptr, which need dlist(glist.c), reinvent some
 
 - tests
-  
-  demos from learning gobject [1](http://www.wl-chuang.com/blog/categories/gobject), [2](http://garfileo.is-programmer.com/2011/7/14/gobject-notes.27977.html), ...
 
+  TODO gtestutils
+
+- demos
+  
+  from learning gobject [1](http://www.wl-chuang.com/blog/categories/gobject), [2](http://garfileo.is-programmer.com/2011/7/14/gobject-notes.27977.html), ...
+
+## TODOs
+
+  next vesion
+  - delete unneeded code & rename files
+    - print funcs & debug funcs in gmessages&gutils&gstrfuncs
+  - gtestutils & github-ci
+  - config.h & glibconfig.h
+  - reinvent gtypemodule
+  - reinvent gobject using fgobject(gtype)
+  - be up-to-date with glib mainline(at least glib-2.64.x)
