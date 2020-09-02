@@ -53,7 +53,7 @@ add_subdirectory(gsync)
 add_subdirectory(gstor)
 add_subdirectory(gcons)
 add_subdirectory(gtype)
-add_subdirectory(demos)
+# add_subdirectory(demos)
 
 add_library(${PROJECT_NAME} SHARED
 	$<TARGET_OBJECTS:fgobject::gutil>
@@ -66,11 +66,11 @@ add_library(fgobject::fgobject ALIAS ${PROJECT_NAME})
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE ${${PROJECT_NAME}_PRJ_DIR}
-  # TODO install to another dir instead
-  PUBLIC ${${PROJECT_NAME}_PRJ_DIR}/gtype
-  PUBLIC ${${PROJECT_NAME}_PRJ_DIR}/gcons
-  PUBLIC ${${PROJECT_NAME}_PRJ_DIR}/gstor
-  PUBLIC ${${PROJECT_NAME}_PRJ_DIR}/gutil
+  # DONE install to another dir instead
+  # PUBLIC ${${PROJECT_NAME}_PRJ_DIR}/gtype
+  # PUBLIC ${${PROJECT_NAME}_PRJ_DIR}/gcons
+  # PUBLIC ${${PROJECT_NAME}_PRJ_DIR}/gstor
+  # PUBLIC ${${PROJECT_NAME}_PRJ_DIR}/gutil
 )
 
 # target_compile_definitions(${PROJECT_NAME}
@@ -84,3 +84,15 @@ target_link_libraries(${PROJECT_NAME}
 	PRIVATE fgobject::gtype # only need gtype, other will be auto link
 )
 
+install (TARGETS ${PROJECT_NAME}
+  LIBRARY
+  DESTINATION lib)
+install (FILES 
+  ${${PROJECT_NAME}_PRJ_DIR}/gtype/gtype.h
+  ${${PROJECT_NAME}_PRJ_DIR}/gcons/gonce.h
+  ${${PROJECT_NAME}_PRJ_DIR}/gstor/gquark.h
+  ${${PROJECT_NAME}_PRJ_DIR}/gutil/gtypes.h
+  ${${PROJECT_NAME}_PRJ_DIR}/gutil/glibconfig.h
+  ${${PROJECT_NAME}_PRJ_DIR}/gutil/gmacros.h
+  ${${PROJECT_NAME}_PRJ_DIR}/gutil/gversionmacros.h
+  DESTINATION include/fgobject)

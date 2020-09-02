@@ -1,7 +1,12 @@
+cmake_minimum_required(VERSION 3.5)
 
 project(demos)
 
+set(CMAKE_BUILD_TYPE MinSizeRel)
+
 set(${PROJECT_NAME}_PRJ_DIR ${PROJECT_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${${PROJECT_NAME}_PRJ_DIR}/../dist/include/fgobject)
+LINK_DIRECTORIES(${${PROJECT_NAME}_PRJ_DIR}/../dist/lib)
 
 set(${PROJECT_NAME}_SRC
 	base.c
@@ -26,5 +31,6 @@ target_include_directories(${PROJECT_NAME}
 # )
 
 target_link_libraries(${PROJECT_NAME}
-	PRIVATE fgobject::fgobject
+	# PRIVATE fgobject::fgobject # TODO cannot use this
+	PRIVATE fgobject
 )
