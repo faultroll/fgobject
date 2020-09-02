@@ -86,9 +86,10 @@ The GType have three essential part of oop(TODO polymorph, as callback function,
 ## implement
 
 based on glib-2.64.4 (in config.h, seems no relative changes in 2.64.5). removes the some features above in gtype(not neceesary, and IMO user should manage memory by themself)
-use following sentence to build the library
+use following sentence to build the library and run demo
 ``` cmake
 cmake -B build && make -j -C build -f Makefile
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:`pwd`/build" ./build/demos/demos
 ```
 the implement is as follow
 ```asciiflow
