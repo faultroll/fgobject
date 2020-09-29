@@ -2,7 +2,8 @@
 #include "base.h"
 #include "derived.h"
 
-int main() {
+int main()
+{
     /*
      * Official document:
      * Use of g_type_create_instance() is reserved for implementators of
@@ -11,20 +12,23 @@ int main() {
      * g_type_create_instance() which doesn't handle things like singleton
      * objects or object construction.
      */
-    Base *base = (Base *)g_type_create_instance(base_get_type());
+    Base *base = base_new();
     base_class_set_i(101);
     base_instance_set_i(base, 201);
-    Derived *derived = (Derived *)g_type_create_instance(derived_get_type());
+    Derived *derived = derived_new();
     derived_instance_set_i(derived, 401);
- 
+
     /* Test polymorphism */
-    Base *instances[2] = { base, (Base *)derived };
+    Base *instances[2] = { base, /* (Base *)derived */BASE(derived) };
     int i;
     for (i = 0; i < 2; i++) {
         Base *inst = instances[i];
-        BaseClass *klass = G_TYPE_INSTANCE_GET_CLASS(inst, base_get_type(), BaseClass);
+        BaseClass *klass = BASE_GET_CLASS(inst);
         klass->base_instance_dump(inst);
     }
- 
+
+    derived_free(derived);
+    base_free(base);
+
     return 0;
 }

@@ -8,6 +8,8 @@ set(${PROJECT_NAME}_PRJ_DIR ${PROJECT_SOURCE_DIR})
 INCLUDE_DIRECTORIES(${${PROJECT_NAME}_PRJ_DIR}/../dist/include/fgobject)
 LINK_DIRECTORIES(${${PROJECT_NAME}_PRJ_DIR}/../dist/lib)
 
+set(CMAKE_C_FLAGS "-Wno-deprecated-declarations")
+
 set(${PROJECT_NAME}_SRC
 	base.c
 	derived.c

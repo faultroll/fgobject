@@ -200,6 +200,8 @@ the implement is as follow
 
   TODO gtestutils
 
+  [gtestutils](https://segmentfault.com/a/1190000003996312), [monad in c](https://segmentfault.com/a/1190000012435966)
+
 - demos
   
   from learning gobject [1](http://www.wl-chuang.com/blog/categories/gobject), [2](http://garfileo.is-programmer.com/2011/7/14/gobject-notes.27977.html), ...
