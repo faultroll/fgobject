@@ -90,7 +90,8 @@ use following sentence to build the library and run demo
 ``` cmake
 cmake -B build -DCMAKE_INSTALL_PREFIX="dist" && make -j -C build -f Makefile install
 cd demos && cmake -B build && make -j -C build -f Makefile
-LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:`pwd`/../dist/lib" ./build/demos
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:`pwd`/../dist/lib" ./build/base/base
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:`pwd`/../dist/lib" ./build/shape/shape
 ```
 the implement is as follow
 ```asciiflow
